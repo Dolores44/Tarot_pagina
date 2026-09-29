@@ -1,185 +1,169 @@
+import type { CategoryRow, ProductRow } from "@/database/types";
+import { bySortOrder, toCategory, toProduct } from "@/services/catalog.mapper";
 import type { CatalogRepository } from "@/services/catalog.repository";
 import type { CategoryWithCount, Product } from "@/types/catalog";
 
 /**
- * Datos mock con la misma forma que tendrá la base de datos (Fase 5).
- * Nombres y precios son los reales; las descripciones que no fueron
- * provistas quedan como [COMPLETAR: ...].
- * `featured` y `sortOrder` son editables: definen qué se destaca en Inicio.
+ * Repositorio mock: mismas filas que SQL/seed.sql (mismos UUID y columnas),
+ * con la misma forma que devolverá Supabase. En la Fase 6 este archivo se
+ * reemplaza por catalog.supabase.ts sin tocar la UI.
  *
+ * Nombres y precios son los reales; las descripciones no provistas quedan
+ * como [COMPLETAR: ...]. `featured` y `sort_order` definen qué se destaca en Inicio.
  * Velas: la categoría se agrega cuando esté confirmado su catálogo.
  */
 
-type MockCategory = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string | null;
-  active: boolean;
-  sortOrder: number;
-};
-
-type MockProduct = Omit<Product, "categorySlug" | "categoryName" | "cardNumber"> & {
-  active: boolean;
-  sortOrder: number;
-};
-
+const SEED_TIMESTAMP = "2026-09-29T00:00:00.000Z";
 const RESERVA = { label: "Reserva", value: "Turnos con reserva previa" };
+const LECTURAS_ID = "0b6c1f2e-3a4d-4c5e-8f60-000000000001";
 
-const categories: MockCategory[] = [
-  { id: "cat-lecturas", name: "Lecturas", slug: "lecturas", description: null, active: true, sortOrder: 1 },
+const categoryRows: CategoryRow[] = [
+  {
+    id: LECTURAS_ID,
+    name: "Lecturas",
+    slug: "lecturas",
+    description: null,
+    active: true,
+    sort_order: 1,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
+  },
 ];
 
-const products: MockProduct[] = [
+const productRows: ProductRow[] = [
   {
-    id: "prod-pareja",
-    categoryId: "cat-lecturas",
+    id: "a1d0c3b2-5e4f-4a6b-9c7d-000000000001",
+    category_id: LECTURAS_ID,
     name: "Lectura de pareja",
     slug: "lectura-de-pareja",
-    shortDescription: "[COMPLETAR: descripción corta de la lectura de pareja.]",
+    short_description: "[COMPLETAR: descripción corta de la lectura de pareja.]",
     description: "[COMPLETAR: descripción completa de la lectura de pareja.]",
     price: 5000,
-    imageUrl: null,
-    imageAlt: "Lectura de pareja",
-    featured: true,
+    image_url: null,
+    image_alt: null,
     details: [RESERVA],
     active: true,
-    sortOrder: 1,
+    featured: true,
+    sort_order: 1,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
   },
   {
-    id: "prod-relacion",
-    categoryId: "cat-lecturas",
+    id: "a1d0c3b2-5e4f-4a6b-9c7d-000000000002",
+    category_id: LECTURAS_ID,
     name: "Lectura sobre tu relación",
     slug: "lectura-sobre-tu-relacion",
     // Flyer "5 preguntas para tu relación"
-    shortDescription: "5 preguntas enfocadas en tu pareja actual.",
+    short_description: "5 preguntas enfocadas en tu pareja actual.",
     description:
       "Una sesión de 5 preguntas enfocadas en tu pareja actual: qué siente realmente por vos en este momento, qué piensa de la relación y hacia dónde quiere llevarla, cuáles son sus intenciones a corto y mediano plazo, qué pueden mejorar juntos y qué consejo tienen las cartas para la relación.",
     price: 8000,
-    imageUrl: null,
-    imageAlt: "Lectura sobre tu relación",
-    featured: true,
+    image_url: null,
+    image_alt: null,
     details: [{ label: "Sesión", value: "5 preguntas" }, RESERVA],
     active: true,
-    sortOrder: 2,
+    featured: true,
+    sort_order: 2,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
   },
   {
-    id: "prod-30min",
-    categoryId: "cat-lecturas",
+    id: "a1d0c3b2-5e4f-4a6b-9c7d-000000000003",
+    category_id: LECTURAS_ID,
     name: "Lectura de 30 minutos",
     slug: "lectura-de-30-minutos",
-    shortDescription: "[COMPLETAR: descripción corta de la lectura de 30 minutos.]",
+    short_description: "[COMPLETAR: descripción corta de la lectura de 30 minutos.]",
     description: "[COMPLETAR: descripción completa de la lectura de 30 minutos.]",
     price: 8000,
-    imageUrl: null,
-    imageAlt: "Lectura de 30 minutos",
-    featured: false,
+    image_url: null,
+    image_alt: null,
     details: [{ label: "Duración", value: "30 minutos" }, RESERVA],
     active: true,
-    sortOrder: 3,
+    featured: false,
+    sort_order: 3,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
   },
   {
-    id: "prod-1hora",
-    categoryId: "cat-lecturas",
+    id: "a1d0c3b2-5e4f-4a6b-9c7d-000000000004",
+    category_id: LECTURAS_ID,
     name: "Lectura de 1 hora",
     slug: "lectura-de-1-hora",
     // Flyer "Sesión de tarot 1 hora"
-    shortDescription: "Preguntas libres, mensajes y orientación para tu camino.",
+    short_description: "Preguntas libres, mensajes y orientación para tu camino.",
     description:
       "Una sesión de preguntas libres: mensajes y orientación para tu camino, descubrí qué energías te rodean y consultá sobre cualquier tema que necesites aclarar.",
     price: 18000,
-    imageUrl: null,
-    imageAlt: "Lectura de 1 hora",
-    featured: true,
+    image_url: null,
+    image_alt: null,
     details: [{ label: "Duración", value: "1 hora" }, RESERVA],
     active: true,
-    sortOrder: 4,
+    featured: true,
+    sort_order: 4,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
   },
   {
-    id: "prod-expareja",
-    categoryId: "cat-lecturas",
+    id: "a1d0c3b2-5e4f-4a6b-9c7d-000000000005",
+    category_id: LECTURAS_ID,
     name: "Lectura de la expareja",
     slug: "lectura-de-la-expareja",
-    shortDescription: "[COMPLETAR: descripción corta de la lectura de la expareja.]",
+    short_description: "[COMPLETAR: descripción corta de la lectura de la expareja.]",
     description: "[COMPLETAR: descripción completa de la lectura de la expareja.]",
     price: 10000,
-    imageUrl: null,
-    imageAlt: "Lectura de la expareja",
-    featured: false,
+    image_url: null,
+    image_alt: null,
     details: [RESERVA],
     active: true,
-    sortOrder: 5,
+    featured: false,
+    sort_order: 5,
+    created_at: SEED_TIMESTAMP,
+    updated_at: SEED_TIMESTAMP,
   },
 ];
 
-const bySortOrder = (a: { sortOrder: number }, b: { sortOrder: number }) => a.sortOrder - b.sortOrder;
-
-function activeCategories(): MockCategory[] {
-  return categories.filter((c) => c.active).sort(bySortOrder);
+/*
+ * Estas dos funciones reproducen lo que harán las políticas RLS y la consulta
+ * de la Fase 6: solo categorías activas, y productos activos de categorías activas.
+ */
+function visibleCategoryRows(): CategoryRow[] {
+  return categoryRows.filter((c) => c.active).sort(bySortOrder);
 }
 
-function toProduct(p: MockProduct, index: number): Product | null {
-  const category = categories.find((c) => c.id === p.categoryId && c.active);
-  if (!category) return null;
-  // Se arma el DTO campo por campo: los internos (active, sortOrder) no salen
-  return {
-    id: p.id,
-    categoryId: p.categoryId,
-    categorySlug: category.slug,
-    categoryName: category.name,
-    name: p.name,
-    slug: p.slug,
-    shortDescription: p.shortDescription,
-    description: p.description,
-    price: p.price,
-    imageUrl: p.imageUrl,
-    imageAlt: p.imageAlt,
-    featured: p.featured,
-    cardNumber: index + 1,
-    details: p.details,
-  };
-}
-
-function activeProducts(): Product[] {
-  return products
-    .filter((p) => p.active)
+function visibleProducts(): Product[] {
+  const categories = new Map(visibleCategoryRows().map((c) => [c.id, c]));
+  return productRows
+    .filter((p) => p.active && categories.has(p.category_id))
     .sort(bySortOrder)
-    .map((p, index) => toProduct(p, index))
-    .filter((p): p is Product => p !== null);
+    .map((row, index) => toProduct(row, categories.get(row.category_id)!, index + 1));
 }
 
 export const mockCatalogRepository: CatalogRepository = {
   async getCategories(): Promise<CategoryWithCount[]> {
-    const visible = activeProducts();
-    return activeCategories().map(({ id, name, slug, description }) => ({
-      id,
-      name,
-      slug,
-      description,
-      productCount: visible.filter((p) => p.categoryId === id).length,
+    const products = visibleProducts();
+    return visibleCategoryRows().map((row) => ({
+      ...toCategory(row),
+      productCount: products.filter((p) => p.categoryId === row.id).length,
     }));
   },
 
   async getCategoryBySlug(slug) {
-    const category = activeCategories().find((c) => c.slug === slug);
-    if (!category) return null;
-    return { id: category.id, name: category.name, slug: category.slug, description: category.description };
+    const row = visibleCategoryRows().find((c) => c.slug === slug);
+    return row ? toCategory(row) : null;
   },
 
   async getProducts(options) {
-    const all = activeProducts();
+    const all = visibleProducts();
     return options?.categorySlug ? all.filter((p) => p.categorySlug === options.categorySlug) : all;
   },
 
   async getFeaturedProducts(limit = 3) {
-    return activeProducts()
+    return visibleProducts()
       .filter((p) => p.featured)
       .slice(0, limit);
   },
 
   async getProductBySlug(categorySlug, productSlug) {
-    return (
-      activeProducts().find((p) => p.categorySlug === categorySlug && p.slug === productSlug) ?? null
-    );
+    return visibleProducts().find((p) => p.categorySlug === categorySlug && p.slug === productSlug) ?? null;
   },
 };
