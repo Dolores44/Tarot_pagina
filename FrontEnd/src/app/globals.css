@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/*
+ * Paleta Paola Tarot — definida en Docs/FASE-1-Definicion.md §2.
+ * No agregar colores fuera de estos tokens.
+ */
+@theme {
+  /* Fondos */
+  --color-night: #06020e;
+  --color-surface: #0e0620;
+  --color-raised: #170a2e;
+
+  /* Violetas */
+  --color-line: #692d88;
+  --color-nebula: #3a0a5c;
+  --color-violet: #8e5bb5;
+  --color-violet-deep: #5b2a86;
+  --color-lilac: #c08bdd;
+
+  /* Acentos cálidos */
+  --color-champagne: #d9c29a;
+  --color-gold: #b8925a;
+  --color-rose: #e3a6c4;
+  --color-magenta: #d6479a;
+  --color-cat-eye: #e8d44a;
+
+  /* Texto */
+  --color-cream: #f6efe4;
+  --color-muted: #bdb3c9;
+
+  /* Tipografías (las variables las define next/font en layout.tsx) */
+  --font-display: var(--font-cinzel), "Times New Roman", serif;
+  --font-decorative: var(--font-cinzel-decorative), var(--font-cinzel), serif;
+  --font-body: var(--font-crimson), Georgia, "Times New Roman", serif;
+
+  /* Tracking de títulos en mayúsculas */
+  --tracking-display: 0.06em;
+  --tracking-label: 0.14em;
+
+  /* Glow controlado */
+  --shadow-glow-sm: 0 0 12px rgb(142 91 181 / 0.25);
+  --shadow-glow: 0 0 24px rgb(142 91 181 / 0.3), 0 0 2px rgb(192 139 221 / 0.4);
+  --shadow-glow-magenta: 0 0 22px rgb(214 71 154 / 0.28);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-night);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--color-night);
+    color: var(--color-muted);
+    font-family: var(--font-body);
+    font-size: 1.0625rem; /* 17px mobile */
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 1.125rem; /* 18px desktop */
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    color: var(--color-cream);
+    letter-spacing: var(--tracking-display);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-violet-deep);
+    color: var(--color-cream);
+  }
+
+  /* Focus visible y consistente en toda la web (accesibilidad) */
+  :focus-visible {
+    outline: 2px solid var(--color-champagne);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* Respetar la preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
