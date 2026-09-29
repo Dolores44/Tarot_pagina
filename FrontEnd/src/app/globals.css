@@ -6,6 +6,7 @@
  */
 @theme {
   /* Fondos */
+  --color-void: #000000; /* negro puro: gato y "suelo" de los flyers */
   --color-night: #06020e;
   --color-surface: #0e0620;
   --color-raised: #170a2e;
@@ -41,6 +42,83 @@
   --shadow-glow-sm: 0 0 12px rgb(142 91 181 / 0.25);
   --shadow-glow: 0 0 24px rgb(142 91 181 / 0.3), 0 0 2px rgb(192 139 221 / 0.4);
   --shadow-glow-magenta: 0 0 22px rgb(214 71 154 / 0.28);
+
+  /* Animaciones (todas sutiles; se anulan con prefers-reduced-motion) */
+  --animate-twinkle: twinkle 5s ease-in-out infinite;
+  --animate-blink: blink 9s ease-in-out infinite;
+  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+  @keyframes blink {
+    0%, 94%, 100% { transform: scaleY(1); }
+    96% { transform: scaleY(0.1); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------- Utilidades de marca ---------- */
+
+@utility text-glow {
+  text-shadow: 0 0 18px rgb(192 139 221 / 0.35);
+}
+
+/* Cielo del hero y del CTA final: nebulosa violeta en los laterales */
+@utility hero-sky {
+  background:
+    radial-gradient(ellipse 42% 60% at 0% 72%, rgb(58 10 92 / 0.6), transparent 70%),
+    radial-gradient(ellipse 42% 55% at 100% 62%, rgb(58 10 92 / 0.55), transparent 70%),
+    radial-gradient(ellipse 55% 42% at 50% 42%, rgb(91 42 134 / 0.22), transparent 72%),
+    radial-gradient(ellipse 28% 22% at 82% 18%, rgb(214 71 154 / 0.06), transparent 70%),
+    var(--color-night);
+}
+
+/* Secciones intermedias: nebulosa muy suave para alternar ritmo */
+@utility section-nebula {
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgb(58 10 92 / 0.28), transparent 70%),
+    var(--color-night);
+}
+
+/* Fondo de carta sin imagen */
+@utility card-sky {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 48%, rgb(91 42 134 / 0.45), transparent 75%),
+    radial-gradient(ellipse 60% 30% at 50% 100%, rgb(58 10 92 / 0.6), transparent 80%),
+    var(--color-surface);
+}
+
+/* Marco exterior de carta: dorado fino + glow violeta leve */
+@utility tarot-frame {
+  border: 1px solid rgb(184 146 90 / 0.7);
+  box-shadow:
+    0 0 0 4px var(--color-night),
+    0 0 0 5px rgb(105 45 136 / 0.6),
+    0 18px 40px -18px rgb(0 0 0 / 0.9);
+}
+
+/* Caja de los flyers: fondo casi negro, borde violeta, glow leve */
+@utility flyer-box {
+  border: 1px solid rgb(105 45 136 / 0.85);
+  border-radius: 0.75rem;
+  background: rgb(14 6 32 / 0.7);
+  box-shadow:
+    0 0 28px rgb(91 42 134 / 0.18),
+    inset 0 0 40px rgb(58 10 92 / 0.25);
+}
+
+/* Aparición al hacer scroll, sin JavaScript (navegadores sin soporte: visible directo) */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
 }
 
 @layer base {
@@ -93,6 +171,13 @@
 
 /* Respetar la preferencia de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .animate-rise,
+  .animate-twinkle,
+  .animate-blink {
+    animation: none !important;
+  }
+
   *,
   *::before,
   *::after {

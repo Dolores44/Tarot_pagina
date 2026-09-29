@@ -1,8 +1,10 @@
-import { publicEnv } from "@/lib/env";
-
 /**
  * Configuración central del sitio. Todo dato de la marca que aparezca en
  * más de un lugar (nombre, redes, navegación) se edita únicamente aquí.
+ *
+ * Este archivo no depende de variables de entorno para poder importarse
+ * también desde componentes de cliente (header, menú mobile).
+ * El número de WhatsApp y la URL del sitio viven en `lib/env.ts`.
  */
 export const siteConfig = {
   name: "Paola Tarot",
@@ -10,9 +12,7 @@ export const siteConfig = {
   description:
     "Lecturas de tarot personalizadas: pareja, relaciones y sesiones de preguntas libres. Consultá y reservá tu turno por WhatsApp.",
   locale: "es_AR",
-  url: publicEnv.NEXT_PUBLIC_SITE_URL,
 
-  whatsappNumber: publicEnv.NEXT_PUBLIC_WHATSAPP_NUMBER,
   /** Mensaje por defecto cuando se consulta sin un producto puntual */
   whatsappDefaultMessage: "Hola! Quisiera hacer una consulta sobre las lecturas.",
 

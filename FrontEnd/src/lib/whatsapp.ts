@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { publicEnv } from "@/lib/env";
 import { formatPrice } from "@/lib/format";
 
 type WhatsAppProduct = {
@@ -13,9 +14,10 @@ export function buildProductMessage(product: WhatsAppProduct): string {
 
 /**
  * Único punto donde se construyen los links de WhatsApp.
- * El número sale de siteConfig (variable de entorno); el texto se codifica para URL.
+ * El número sale de la variable de entorno; el texto se codifica para URL.
+ * Se usa desde Server Components: los de cliente reciben el link ya armado.
  */
 export function buildWhatsAppUrl(product?: WhatsAppProduct): string {
   const message = product ? buildProductMessage(product) : siteConfig.whatsappDefaultMessage;
-  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${publicEnv.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
