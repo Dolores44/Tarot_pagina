@@ -24,10 +24,10 @@ export function Footer({ whatsappUrl }: Props) {
 
         <nav aria-label="Pie de página" className="text-center md:text-left">
           <h2 className="font-display text-xs tracking-label text-champagne uppercase">Navegación</h2>
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-4 space-y-1">
             {siteConfig.nav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-muted transition-colors hover:text-cream">
+                <Link href={item.href} className="inline-block py-1.5 text-muted transition-colors hover:text-cream">
                   {item.label}
                 </Link>
               </li>
@@ -37,13 +37,13 @@ export function Footer({ whatsappUrl }: Props) {
 
         <div className="text-center md:text-left">
           <h2 className="font-display text-xs tracking-label text-champagne uppercase">Contacto</h2>
-          <ul className="mt-5 space-y-3">
+          <ul className="mt-4 space-y-1">
             <li>
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 text-muted transition-colors hover:text-cream"
+                className="inline-flex min-h-11 items-center gap-2.5 text-muted transition-colors hover:text-cream"
               >
                 <WhatsAppIcon className="size-5 text-lilac" />
                 WhatsApp
@@ -54,7 +54,7 @@ export function Footer({ whatsappUrl }: Props) {
                 href={siteConfig.social.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 text-muted transition-colors hover:text-cream"
+                className="inline-flex min-h-11 items-center gap-2.5 text-muted transition-colors hover:text-cream"
               >
                 <InstagramIcon className="size-5 text-lilac" />@{siteConfig.social.instagram.handle}
               </a>

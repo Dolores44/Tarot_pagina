@@ -30,6 +30,12 @@ export type Product = {
   imageUrl: string | null;
   imageAlt: string;
   featured: boolean;
+  /**
+   * Número de carta estable (1, 2, 3…) según el orden del catálogo.
+   * Define el número romano y el motivo de la carta: la misma lectura se ve
+   * igual en Inicio, en el catálogo y en el detalle.
+   */
+  cardNumber: number;
   /** "Información importante": duración, modalidad, etc. */
   details: ProductDetail[];
 };

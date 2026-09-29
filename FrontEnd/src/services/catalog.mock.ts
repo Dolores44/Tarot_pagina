@@ -6,6 +6,8 @@ import type { CategoryWithCount, Product } from "@/types/catalog";
  * Nombres y precios son los reales; las descripciones que no fueron
  * provistas quedan como [COMPLETAR: ...].
  * `featured` y `sortOrder` son editables: definen qué se destaca en Inicio.
+ *
+ * Velas: la categoría se agrega cuando esté confirmado su catálogo.
  */
 
 type MockCategory = {
@@ -17,7 +19,7 @@ type MockCategory = {
   sortOrder: number;
 };
 
-type MockProduct = Omit<Product, "categorySlug" | "categoryName"> & {
+type MockProduct = Omit<Product, "categorySlug" | "categoryName" | "cardNumber"> & {
   active: boolean;
   sortOrder: number;
 };
@@ -26,7 +28,6 @@ const RESERVA = { label: "Reserva", value: "Turnos con reserva previa" };
 
 const categories: MockCategory[] = [
   { id: "cat-lecturas", name: "Lecturas", slug: "lecturas", description: null, active: true, sortOrder: 1 },
-  { id: "cat-velas", name: "Velas", slug: "velas", description: null, active: true, sortOrder: 2 },
 ];
 
 const products: MockProduct[] = [
@@ -117,7 +118,7 @@ function activeCategories(): MockCategory[] {
   return categories.filter((c) => c.active).sort(bySortOrder);
 }
 
-function toProduct(p: MockProduct): Product | null {
+function toProduct(p: MockProduct, index: number): Product | null {
   const category = categories.find((c) => c.id === p.categoryId && c.active);
   if (!category) return null;
   // Se arma el DTO campo por campo: los internos (active, sortOrder) no salen
@@ -134,6 +135,7 @@ function toProduct(p: MockProduct): Product | null {
     imageUrl: p.imageUrl,
     imageAlt: p.imageAlt,
     featured: p.featured,
+    cardNumber: index + 1,
     details: p.details,
   };
 }
@@ -142,7 +144,7 @@ function activeProducts(): Product[] {
   return products
     .filter((p) => p.active)
     .sort(bySortOrder)
-    .map(toProduct)
+    .map((p, index) => toProduct(p, index))
     .filter((p): p is Product => p !== null);
 }
 
@@ -156,6 +158,12 @@ export const mockCatalogRepository: CatalogRepository = {
       description,
       productCount: visible.filter((p) => p.categoryId === id).length,
     }));
+  },
+
+  async getCategoryBySlug(slug) {
+    const category = activeCategories().find((c) => c.slug === slug);
+    if (!category) return null;
+    return { id: category.id, name: category.name, slug: category.slug, description: category.description };
   },
 
   async getProducts(options) {

@@ -4,11 +4,11 @@ import { FinalCta } from "@/components/home/FinalCta";
 import { Hero } from "@/components/home/Hero";
 import { Intro } from "@/components/home/Intro";
 import { ReadingTypes } from "@/components/home/ReadingTypes";
-import { catalog } from "@/services/catalog";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { getFeaturedProducts } from "@/services/catalog.service";
 
 export default async function HomePage() {
-  const featured = await catalog.getFeaturedProducts(3);
+  const featured = await getFeaturedProducts(3);
   const whatsappUrl = buildWhatsAppUrl();
 
   return (
