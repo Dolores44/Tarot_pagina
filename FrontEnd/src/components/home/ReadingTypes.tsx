@@ -34,8 +34,8 @@ export function ReadingTypes() {
                     <Icon className="size-8 text-lilac" />
                   </span>
                 </span>
-                <h3 className="mt-6 text-lg uppercase sm:text-xl">{item.title}</h3>
-                <ContentText text={item.text} className="mt-3 max-w-xs" />
+                <h3 className="mt-6 text-xl uppercase sm:text-2xl">{item.title}</h3>
+                <ContentText text={item.text} className="mt-3 max-w-sm" />
               </li>
             );
           })}

@@ -7,8 +7,8 @@ import { ReadingTypes } from "@/components/home/ReadingTypes";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { getFeaturedProducts } from "@/services/catalog.service";
 
-export default async function HomePage() {
-  const featured = await getFeaturedProducts(3);
+export default function HomePage() {
+  const featured = getFeaturedProducts(3);
   const whatsappUrl = buildWhatsAppUrl();
 
   return (

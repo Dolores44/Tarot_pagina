@@ -5,7 +5,7 @@ import { z } from "zod";
  * Se validan al iniciar: si falta o está mal un valor, la app falla en build
  * en lugar de generar links rotos.
  *
- * Los secretos (claves de Supabase con permisos, tokens de Meta) NUNCA van acá:
+ * Los secretos (claves privadas, tokens) NUNCA van acá:
  * se leen solo desde módulos marcados con `import "server-only"`.
  */
 const publicEnvSchema = z.object({

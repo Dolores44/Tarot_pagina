@@ -2,7 +2,7 @@ import Link from "next/link";
 import { OrnamentDivider } from "@/components/ornaments/OrnamentDivider";
 import { StarSparkle } from "@/components/ornaments/StarSparkle";
 import { WhatsAppIcon } from "@/components/ui/icons";
-import { catalogContent } from "@/content/catalog";
+import { catalogTexts } from "@/content/catalog-texts";
 import type { CategoryWithCount } from "@/types/catalog";
 
 type Props = {
@@ -17,7 +17,7 @@ type Item = { key: string; label: string; href: string; count: number; active: b
 
 function buildItems({ categories, activeSlug, totalCount }: Omit<Props, "whatsappUrl">): Item[] {
   return [
-    { key: "all", label: catalogContent.nav.all, href: "/catalogo", count: totalCount, active: activeSlug === null },
+    { key: "all", label: catalogTexts.nav.all, href: "/catalogo", count: totalCount, active: activeSlug === null },
     ...categories.map((c) => ({
       key: c.slug,
       label: c.name,
@@ -41,14 +41,14 @@ export function CategoryNav(props: Props) {
   return (
     <>
       {/* Mobile / tablet */}
-      <nav aria-label={catalogContent.nav.title} className="lg:hidden">
+      <nav aria-label={catalogTexts.nav.title} className="lg:hidden">
         <ul className="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:justify-center">
           {items.map((item) => (
             <li key={item.key} className="shrink-0 snap-start">
               <Link
                 href={item.href}
                 aria-current={item.active ? "page" : undefined}
-                className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-5 font-display text-[0.72rem] tracking-label uppercase transition-colors ${
+                className={`inline-flex min-h-12 items-center gap-2 rounded-full border px-5 font-display text-label tracking-[0.12em] uppercase transition-colors ${
                   item.active
                     ? "border-lilac/80 bg-violet-deep/40 text-cream"
                     : "border-line/70 text-muted hover:border-lilac/60 hover:text-cream"
@@ -65,10 +65,10 @@ export function CategoryNav(props: Props) {
 
       {/* Desktop */}
       <aside className="hidden lg:block">
-        <nav aria-label={catalogContent.nav.title} className="flyer-box sticky top-28 px-6 py-8">
-          <p className="flex items-center justify-center gap-3 font-display text-xs tracking-label text-champagne uppercase">
+        <nav aria-label={catalogTexts.nav.title} className="flyer-box sticky top-28 px-6 py-8">
+          <p className="flex items-center justify-center gap-3 font-display text-label tracking-label text-champagne uppercase">
             <StarSparkle className="size-3 text-violet" />
-            {catalogContent.nav.title}
+            {catalogTexts.nav.title}
             <StarSparkle className="size-3 text-violet" />
           </p>
           <OrnamentDivider className="mx-auto mt-4 h-4 w-36 text-gold/60" />
@@ -79,7 +79,7 @@ export function CategoryNav(props: Props) {
                 <Link
                   href={item.href}
                   aria-current={item.active ? "page" : undefined}
-                  className={`group flex min-h-11 items-center gap-3 rounded-sm px-3 py-2 font-display text-[0.8rem] tracking-[0.1em] uppercase transition-colors ${
+                  className={`group flex min-h-12 items-center gap-3 rounded-sm px-3 py-2 font-display text-nav tracking-[0.1em] uppercase transition-colors ${
                     item.active ? "bg-violet-deep/30 text-lilac" : "text-muted hover:text-cream"
                   }`}
                 >
@@ -89,19 +89,19 @@ export function CategoryNav(props: Props) {
                     }`}
                   />
                   <span className="flex-1">{item.label}</span>
-                  <span className="text-[0.7rem] text-champagne/80">{item.count}</span>
+                  <span className="text-label text-champagne/80">{item.count}</span>
                 </Link>
               </li>
             ))}
           </ul>
 
           <div className="mt-8 border-t border-dashed border-line/60 pt-6 text-center">
-            <p className="text-[0.98rem] leading-snug">{catalogContent.sidebarNote}</p>
+            <p className="text-base leading-snug">{catalogTexts.sidebarNote}</p>
             <a
               href={props.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex min-h-11 items-center gap-2 font-display text-[0.72rem] tracking-label text-champagne uppercase transition-colors hover:text-cream"
+              className="mt-4 inline-flex min-h-12 items-center gap-2 font-display text-button tracking-[0.12em] text-champagne uppercase transition-colors hover:text-cream"
             >
               <WhatsAppIcon className="size-4" />
               WhatsApp

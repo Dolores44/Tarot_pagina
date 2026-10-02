@@ -78,7 +78,7 @@ export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" onClick={onClose} className="flex items-center gap-3" aria-label={`${siteConfig.name} — Inicio`}>
             <BrandMark size={44} decorative />
-            <span className="font-display text-[0.95rem] tracking-[0.18em] text-cream uppercase">
+            <span className="font-display text-base tracking-[0.18em] text-cream uppercase">
               {siteConfig.name}
             </span>
           </Link>
@@ -124,7 +124,7 @@ export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-13 w-full max-w-xs items-center justify-center gap-2.5 rounded-sm border border-champagne/80 font-display text-sm tracking-label text-champagne uppercase"
+            className="inline-flex min-h-13 w-full max-w-sm items-center justify-center gap-2.5 rounded-sm border border-champagne/80 font-display text-button tracking-[0.12em] text-champagne uppercase"
           >
             <WhatsAppIcon />
             Consultar por WhatsApp

@@ -1,19 +1,19 @@
 /**
  * Textos de la página de Inicio.
  *
- * Las frases que no son placeholder provienen del material real de la marca
- * (flyers del catálogo de WhatsApp y títulos de los reels de Instagram).
- * Todo lo marcado con [COMPLETAR: ...] debe reemplazarse por texto real.
+ * Las frases provienen del material real de la marca (banners, flyers,
+ * títulos de reels y respuestas de la FAQ). Lo marcado con [COMPLETAR: ...]
+ * todavía no fue provisto y debe reemplazarse por texto real.
  */
 export const homeContent = {
   hero: {
-    eyebrow: "Lecturas de tarot",
+    eyebrow: "Lecturas de tarot y velas",
     // Flyer "Sesión de tarot 1 hora"
     titleTop: "Abrí las puertas",
     titleBottom: "a las respuestas",
-    // Flyers del catálogo
-    note: "Turnos con reserva previa",
-    primaryCta: "Ver lecturas",
+    // FAQ: todas las lecturas son virtuales por WhatsApp
+    note: "Consultas virtuales por WhatsApp",
+    primaryCta: "Ver catálogo",
     secondaryCta: "Consultar por WhatsApp",
   },
 
@@ -23,41 +23,46 @@ export const homeContent = {
     titleTop: "Las cartas te cuentan",
     titleBottom: "una historia",
     paragraphs: [
-      "[COMPLETAR: presentación de Paola — quién es, cómo llegó al tarot y cómo trabaja.]",
-      "[COMPLETAR: qué puede esperar una persona de una lectura y cómo se siente la experiencia.]",
+      "[COMPLETAR: presentación personal de Paola — quién es y cómo llegó al tarot.]",
+      // FAQ "¿Cómo se realiza una lectura?"
+      "Las lecturas son virtuales, por WhatsApp. Hacés tus preguntas y recibís un audio con lo que muestran las cartas y una foto de la tirada, para volver a escucharlo cuando lo necesites.",
+      // Banners de velas: "Hechas con intención", "Una vela preparada para acompañar tu proceso"
+      "Además de las lecturas, hay velas hechas con intención para acompañar cada proceso.",
     ],
   },
 
+  /** Temas o formas de consulta (no son productos del catálogo) */
   readingTypes: {
-    eyebrow: "Lecturas",
+    eyebrow: "Temas de consulta",
     titleTop: "¿Qué querés",
     titleBottom: "preguntarle a las cartas?",
     items: [
       {
         icon: "rings",
         title: "Amor y pareja",
-        // Preguntas del flyer "5 preguntas para tu relación"
-        text: "Lecturas enfocadas en tu pareja actual: qué siente, qué piensa de la relación y hacia dónde quiere llevarla.",
+        // Banner "Amor en Conexión"
+        text: "Lo que tu corazón necesita saber… las cartas lo revelan. Para eso está Amor en Conexión, una lectura especial de nueve cartas.",
       },
       {
         icon: "moon",
         title: "Expareja",
-        text: "[COMPLETAR: breve descripción de la lectura de la expareja.]",
+        // Las sesiones son de preguntas libres sobre cualquier tema (flyer 1 hora)
+        text: "Si una relación pasada todavía te genera preguntas, podés consultarla en una sesión de preguntas libres.",
       },
       {
         icon: "hourglass",
         title: "Sesiones por tiempo",
-        // Flyer "Sesión de tarot 1 hora"
-        text: "Preguntas libres, mensajes y orientación para tu camino. Sesiones de 30 minutos o de 1 hora.",
+        // Banner "Lectura de tarot 30 minutos" y flyer "Sesión de tarot 1 hora"
+        text: "Preguntas libres sobre amor, trabajo, dinero, familia y decisiones. Sesiones de 30 minutos o de 1 hora.",
       },
     ],
   },
 
   featured: {
-    eyebrow: "Destacadas",
-    titleTop: "Lecturas",
+    eyebrow: "Destacados",
+    titleTop: "Lecturas y velas",
     titleBottom: "para este momento",
-    cta: "Ver todas las lecturas",
+    cta: "Ver todo el catálogo",
   },
 
   faq: {
@@ -72,8 +77,8 @@ export const homeContent = {
     // Título de reel
     titleTop: "El universo",
     titleBottom: "te habla",
-    text: "Escribí por WhatsApp para consultar disponibilidad y reservar tu lectura.",
-    cta: "Reservar por WhatsApp",
+    text: "Escribí por WhatsApp para consultar por lecturas, velas y combos, y reservar tu turno.",
+    cta: "Consultar por WhatsApp",
   },
 } as const;
 

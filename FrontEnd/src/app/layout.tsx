@@ -30,7 +30,7 @@ const crimsonPro = Crimson_Pro({
 export const metadata: Metadata = {
   metadataBase: new URL(publicEnv.NEXT_PUBLIC_SITE_URL),
   title: {
-    default: `${siteConfig.name} — Lecturas de tarot`,
+    default: `${siteConfig.name} — Lecturas de tarot y velas`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — Lecturas de tarot`,
+    title: `${siteConfig.name} — Lecturas de tarot y velas`,
     description: siteConfig.description,
   },
 };

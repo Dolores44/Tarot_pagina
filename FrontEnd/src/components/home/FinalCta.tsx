@@ -23,11 +23,11 @@ export function FinalCta({ whatsappUrl }: Props) {
           titleTop={finalCta.titleTop}
           titleBottom={finalCta.titleBottom}
         />
-        <p className="mt-8 max-w-md text-[1.1rem]">{finalCta.text}</p>
+        <p className="mt-8 max-w-lg text-[1.2rem] sm:text-[1.3rem]">{finalCta.text}</p>
         <ButtonLink
           href={whatsappUrl}
           variant="whatsapp"
-          className="mt-10 w-full max-w-xs sm:w-auto sm:px-10"
+          className="mt-10 w-full max-w-sm sm:w-auto sm:max-w-none sm:px-10"
           ariaLabel={`${finalCta.cta} (abre WhatsApp)`}
         >
           {finalCta.cta}

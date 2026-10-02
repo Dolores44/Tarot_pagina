@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 /**
  * Las URLs del catálogo son siempre en minúsculas (los slugs se validan así).
  * Si alguien escribe o comparte una URL con mayúsculas
- * (ej. /catalogo/Lecturas/Lectura-De-Pareja), se redirige a la versión canónica.
+ * (ej. /catalogo/Velas/Velas-Llaves), se redirige a la versión canónica.
  * Además evita que un servidor con sistema de archivos que ignora mayúsculas
  * (Windows) sirva páginas pre-generadas con URLs no canónicas.
  */

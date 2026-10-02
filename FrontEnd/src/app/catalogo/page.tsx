@@ -1,25 +1,27 @@
 import type { Metadata } from "next";
 import { CatalogView } from "@/components/catalog/CatalogView";
-import { catalogContent } from "@/content/catalog";
+import { catalogTexts } from "@/content/catalog-texts";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
-import { getAllProducts, getVisibleCategories } from "@/services/catalog.service";
+import { getAllProducts, getCategoryProducts, getVisibleCategories } from "@/services/catalog.service";
 
 export const metadata: Metadata = {
   title: "Catálogo",
-  description: "Catálogo de lecturas de tarot de Paola Tarot: precios, detalles y consultas por WhatsApp.",
+  description:
+    "Lecturas de tarot, velas hechas con intención y combos de Paola Tarot. Consultá cada uno por WhatsApp.",
   alternates: { canonical: "/catalogo" },
 };
 
-export default async function CatalogPage() {
-  const [categories, products] = await Promise.all([getVisibleCategories(), getAllProducts()]);
+export default function CatalogPage() {
+  const categories = getVisibleCategories();
+  const groups = categories.map((category) => ({ category, products: getCategoryProducts(category.slug) }));
 
   return (
     <CatalogView
-      title={catalogContent.header}
+      title={catalogTexts.header}
       categories={categories}
       activeSlug={null}
-      totalCount={products.length}
-      products={products}
+      totalCount={getAllProducts().length}
+      groups={groups}
       whatsappUrl={buildWhatsAppUrl()}
     />
   );

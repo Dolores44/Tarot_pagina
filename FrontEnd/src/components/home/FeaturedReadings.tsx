@@ -9,9 +9,8 @@ type Props = {
 };
 
 /**
- * Lecturas destacadas (featured = true en el catálogo), presentadas como
- * cartas de un mazo y no como fichas de tienda: el precio es un detalle,
- * no el protagonista.
+ * Destacados de Inicio (featured: true en src/content/catalog.ts),
+ * presentados como piezas del universo visual de Paola, no como fichas de tienda.
  */
 export function FeaturedReadings({ products }: Props) {
   const { featured } = homeContent;
@@ -28,9 +27,9 @@ export function FeaturedReadings({ products }: Props) {
           className="reveal"
         />
 
-        <ul className="mt-14 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
+        <ul className="mt-14 grid gap-x-10 gap-y-20 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
-            <li key={product.id} className="reveal">
+            <li key={product.slug} className="reveal">
               <ProductCard product={product} />
             </li>
           ))}

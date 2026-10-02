@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CatalogView } from "@/components/catalog/CatalogView";
-import { hasPlaceholder } from "@/content/placeholder";
+import { siteConfig } from "@/config/site";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
   getAllProducts,
@@ -10,24 +10,19 @@ import {
   getVisibleCategories,
 } from "@/services/catalog.service";
 
-export async function generateStaticParams() {
-  const categories = await getVisibleCategories();
-  return categories.map((category) => ({ categoria: category.slug }));
+export function generateStaticParams() {
+  return getVisibleCategories().map((category) => ({ categoria: category.slug }));
 }
 
 export async function generateMetadata(props: PageProps<"/catalogo/[categoria]">): Promise<Metadata> {
   const { categoria } = await props.params;
-  const category = await getCategory(categoria);
+  const category = getCategory(categoria);
   if (!category) return {};
-
-  const description =
-    category.description && !hasPlaceholder(category.description)
-      ? category.description
-      : `${category.name} de Paola Tarot: precios, detalles y consultas por WhatsApp.`;
 
   return {
     title: `${category.name} — Catálogo`,
-    description,
+    description:
+      category.description ?? `${category.name} de ${siteConfig.name}. Consultá cada una por WhatsApp.`,
     alternates: { canonical: `/catalogo/${category.slug}` },
   };
 }
@@ -36,14 +31,11 @@ export default async function CategoryPage(props: PageProps<"/catalogo/[categori
   const { categoria } = await props.params;
 
   // Validación del slug + búsqueda: un valor inválido o inexistente es 404
-  const category = await getCategory(categoria);
+  const category = getCategory(categoria);
   if (!category) notFound();
 
-  const [categories, products, all] = await Promise.all([
-    getVisibleCategories(),
-    getCategoryProducts(category.slug),
-    getAllProducts(),
-  ]);
+  const categories = getVisibleCategories();
+  const current = categories.find((c) => c.slug === category.slug)!;
 
   return (
     <CatalogView
@@ -51,8 +43,8 @@ export default async function CategoryPage(props: PageProps<"/catalogo/[categori
       description={category.description}
       categories={categories}
       activeSlug={category.slug}
-      totalCount={all.length}
-      products={products}
+      totalCount={getAllProducts().length}
+      groups={[{ category: current, products: getCategoryProducts(category.slug) }]}
       whatsappUrl={buildWhatsAppUrl()}
     />
   );

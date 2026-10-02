@@ -16,14 +16,14 @@ export function Footer({ whatsappUrl }: Props) {
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-8 md:grid-cols-3 md:gap-8">
         <div className="flex flex-col items-center gap-4 text-center md:items-start md:text-left">
           <BrandMark size={84} decorative className="shadow-glow-sm" />
-          <p className="font-display text-lg tracking-[0.18em] text-cream uppercase">{siteConfig.name}</p>
-          <p className="font-display text-xs tracking-label text-champagne/90 uppercase">
+          <p className="font-display text-xl tracking-[0.18em] text-cream uppercase">{siteConfig.name}</p>
+          <p className="font-display text-label tracking-label text-champagne/90 uppercase">
             Turnos con reserva previa
           </p>
         </div>
 
         <nav aria-label="Pie de página" className="text-center md:text-left">
-          <h2 className="font-display text-xs tracking-label text-champagne uppercase">Navegación</h2>
+          <h2 className="font-display text-label tracking-label text-champagne uppercase">Navegación</h2>
           <ul className="mt-4 space-y-1">
             {siteConfig.nav.map((item) => (
               <li key={item.href}>
@@ -36,7 +36,7 @@ export function Footer({ whatsappUrl }: Props) {
         </nav>
 
         <div className="text-center md:text-left">
-          <h2 className="font-display text-xs tracking-label text-champagne uppercase">Contacto</h2>
+          <h2 className="font-display text-label tracking-label text-champagne uppercase">Contacto</h2>
           <ul className="mt-4 space-y-1">
             <li>
               <a
@@ -65,7 +65,7 @@ export function Footer({ whatsappUrl }: Props) {
 
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 pb-10 sm:px-8">
         <OrnamentDivider className="h-5 w-44 text-gold/50" />
-        <p className="text-sm text-muted/80">
+        <p className="text-base text-muted/80">
           © {year} {siteConfig.name}
         </p>
       </div>

@@ -14,6 +14,3 @@ export function parseSlug(value: unknown): string | null {
   const result = slugSchema.safeParse(value);
   return result.success ? result.data : null;
 }
-
-/** Precio en pesos enteros; usado por el futuro panel /admin */
-export const priceSchema = z.number().int().min(0).max(10_000_000);

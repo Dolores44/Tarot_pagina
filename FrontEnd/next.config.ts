@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 /*
  * Headers de seguridad básicos para todo el sitio.
- * La Content-Security-Policy completa se define en la Fase 10,
- * cuando estén todos los orígenes (Supabase Storage, etc.).
+ * La Content-Security-Policy completa se define en la Fase 10
+ * (revisión final de seguridad y SEO).
  */
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },

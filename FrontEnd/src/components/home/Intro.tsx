@@ -15,7 +15,7 @@ export function Intro() {
         <div className="flyer-box relative mt-12 px-6 py-10 sm:px-12 sm:py-12">
           <StarSparkle className="absolute -top-2 -left-2 size-4 text-lilac" />
           <StarSparkle className="absolute -right-2 -bottom-2 size-4 text-lilac" />
-          <div className="space-y-5 text-center text-[1.1rem] leading-relaxed sm:text-[1.2rem]">
+          <div className="space-y-5 text-center text-[1.2rem] leading-relaxed sm:text-[1.35rem]">
             {intro.paragraphs.map((paragraph) => (
               <ContentText key={paragraph} text={paragraph} />
             ))}

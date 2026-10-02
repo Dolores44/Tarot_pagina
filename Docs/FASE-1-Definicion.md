@@ -196,6 +196,12 @@ Todo se desactiva con `prefers-reduced-motion`. Sin parallax, sin partículas en
 
 ## 7. Arquitectura
 
+> **Actualización (cambio de requerimientos):** se descartó la base de datos (Supabase/PostgreSQL).
+> El catálogo es estático y vive en `FrontEnd/src/content/catalog.ts` (fuente única de verdad),
+> consultado por `src/services/catalog.service.ts`. Tampoco se muestran precios: cada producto
+> se consulta por WhatsApp. Las menciones a Supabase de esta sección quedan solo como registro histórico.
+
+
 **Stack:** Next.js (App Router) + React + TypeScript + Tailwind CSS + Supabase (PostgreSQL). Es el stack pedido y es el adecuado: páginas renderizadas en el servidor (SEO y velocidad desde Instagram), sin backend separado que mantener, y Supabase da base de datos, storage de imágenes y auth para el futuro `/admin`.
 
 ### Mapeo a las carpetas existentes

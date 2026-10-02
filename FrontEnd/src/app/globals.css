@@ -34,6 +34,17 @@
   --font-decorative: var(--font-cinzel-decorative), var(--font-cinzel), serif;
   --font-body: var(--font-crimson), Georgia, "Times New Roman", serif;
 
+  /*
+   * Escala tipográfica (pensada para leerse cómoda al 100% de zoom).
+   * Cinzel en mayúsculas con tracking se ve más grande que su tamaño nominal.
+   */
+  --text-label: 0.875rem; /* 14px: etiquetas, categorías, breadcrumb */
+  --text-label--line-height: 1.4;
+  --text-button: 0.9375rem; /* 15px: botones y acciones */
+  --text-button--line-height: 1.35;
+  --text-nav: 0.9375rem; /* 15px: navegación */
+  --text-nav--line-height: 1.35;
+
   /* Tracking de títulos en mayúsculas */
   --tracking-display: 0.06em;
   --tracking-label: 0.14em;
@@ -133,7 +144,7 @@
     background-color: var(--color-night);
     color: var(--color-muted);
     font-family: var(--font-body);
-    font-size: 1.0625rem; /* 17px mobile */
+    font-size: 1.125rem; /* 18px mobile */
     line-height: 1.65;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -141,7 +152,7 @@
 
   @media (min-width: 768px) {
     body {
-      font-size: 1.125rem; /* 18px desktop */
+      font-size: 1.1875rem; /* 19px desktop */
     }
   }
 

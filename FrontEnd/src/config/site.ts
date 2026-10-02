@@ -10,11 +10,11 @@ export const siteConfig = {
   name: "Paola Tarot",
   shortName: "Paola Tarot",
   description:
-    "Lecturas de tarot personalizadas: pareja, relaciones y sesiones de preguntas libres. Consultá y reservá tu turno por WhatsApp.",
+    "Lecturas de tarot, velas hechas con intención y combos. Consultas virtuales por WhatsApp, con audios y fotos.",
   locale: "es_AR",
 
   /** Mensaje por defecto cuando se consulta sin un producto puntual */
-  whatsappDefaultMessage: "Hola! Quisiera hacer una consulta sobre las lecturas.",
+  whatsappDefaultMessage: "Hola! Quisiera hacer una consulta.",
 
   social: {
     instagram: {

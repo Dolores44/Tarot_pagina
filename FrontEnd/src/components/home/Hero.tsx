@@ -28,7 +28,7 @@ export function Hero({ whatsappUrl }: Props) {
       <SunLine className="absolute top-8 left-6 hidden size-24 text-violet/45 sm:block lg:left-20 lg:size-32" />
       <CrescentMoon className="absolute top-10 right-8 size-16 text-lilac/40 sm:size-20 lg:right-24 lg:size-24" />
 
-      <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] max-w-3xl flex-col items-center justify-center px-4 pt-14 pb-40 text-center sm:px-8 lg:min-h-[calc(100svh-5rem)] lg:pb-44">
+      <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] max-w-5xl flex-col items-center justify-center px-4 pt-14 pb-40 text-center sm:px-8 lg:min-h-[calc(100svh-5.5rem)] lg:pb-44">
         <div className="animate-rise">
           <BrandMark
             size={320}
@@ -37,7 +37,7 @@ export function Hero({ whatsappUrl }: Props) {
           />
         </div>
 
-        <p className="animate-rise mt-9 flex items-center gap-3 font-display text-xs tracking-label text-champagne uppercase [animation-delay:120ms] sm:text-[0.8rem]">
+        <p className="animate-rise mt-9 flex items-center gap-3 font-display text-label tracking-label text-champagne uppercase [animation-delay:120ms] sm:text-button">
           <StarSparkle className="size-3 text-violet" />
           {hero.eyebrow}
           <StarSparkle className="size-3 text-violet" />
@@ -45,27 +45,27 @@ export function Hero({ whatsappUrl }: Props) {
 
         <h1
           id="hero-title"
-          className="animate-rise mt-4 text-[2.1rem] uppercase [animation-delay:200ms] sm:text-5xl lg:text-6xl"
+          className="animate-rise mt-4 text-[2.3rem] uppercase [animation-delay:200ms] sm:text-6xl lg:text-[4.5rem]"
         >
           {hero.titleTop}
           <span className="block text-lilac text-glow">{hero.titleBottom}</span>
         </h1>
 
         <div className="animate-rise mt-10 flex w-full flex-col items-center justify-center gap-4 [animation-delay:300ms] sm:flex-row">
-          <ButtonLink href="/catalogo" className="w-full max-w-xs sm:w-auto">
+          <ButtonLink href="/catalogo" className="w-full max-w-sm sm:w-auto sm:max-w-none">
             {hero.primaryCta}
           </ButtonLink>
           <ButtonLink
             href={whatsappUrl}
             variant="whatsapp"
-            className="w-full max-w-xs sm:w-auto"
+            className="w-full max-w-sm sm:w-auto sm:max-w-none"
             ariaLabel={`${hero.secondaryCta} (abre WhatsApp)`}
           >
             {hero.secondaryCta}
           </ButtonLink>
         </div>
 
-        <p className="animate-rise mt-7 font-display text-[0.7rem] tracking-label text-muted/80 uppercase [animation-delay:380ms]">
+        <p className="animate-rise mt-7 font-display text-label tracking-label text-muted uppercase [animation-delay:380ms]">
           {hero.note}
         </p>
       </div>

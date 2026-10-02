@@ -1,7 +1,7 @@
 /**
  * Preguntas frecuentes. Editar las respuestas acá.
- * Lo único confirmado por el material de la marca es que los turnos son con
- * reserva previa; el resto queda como [COMPLETAR: ...] hasta tener la información real.
+ * Respuestas provistas por Paola (redacción corregida, mismo significado).
+ * Lo marcado con [COMPLETAR: ...] todavía no fue confirmado.
  *
  * `showOnHome` define cuáles aparecen resumidas en la página de Inicio.
  */
@@ -16,39 +16,41 @@ export const faqItems: FaqItem[] = [
   {
     id: "como-se-realiza",
     question: "¿Cómo se realiza una lectura?",
-    answer: "[COMPLETAR: cómo es una lectura paso a paso.]",
+    answer:
+      "Las lecturas se realizan por audios y fotos. Hacés tus preguntas y luego recibís un audio con lo que veo en las cartas, junto con una foto de la tirada, para que tengas todo disponible en el chat y puedas volver a escucharlo cuando lo necesites.",
     showOnHome: true,
   },
   {
     id: "como-reservar",
     question: "¿Cómo puedo reservar?",
     answer:
-      "Los turnos son con reserva previa. [COMPLETAR: pasos para reservar — por ejemplo, escribir por WhatsApp, elegir la lectura y confirmar día y horario.]",
+      "Las reservas se hacen por WhatsApp. Ahí te ofrezco los días y horarios disponibles para que elijas el que te resulte más conveniente.",
     showOnHome: true,
   },
   {
     id: "como-se-paga",
     question: "¿Cómo se paga?",
-    answer: "[COMPLETAR: medios de pago aceptados y cuándo se abona.]",
+    answer:
+      "El pago se realiza 5 minutos antes de comenzar la sesión, por Mercado Pago, transferencia bancaria o tarjeta de crédito.",
+    showOnHome: true,
+  },
+  {
+    id: "presencial-virtual",
+    question: "¿Las lecturas son presenciales o virtuales?",
+    answer: "Todas las lecturas son virtuales, por WhatsApp, mediante audios y fotos.",
     showOnHome: true,
   },
   {
     id: "duracion",
     question: "¿Cuánto dura una lectura?",
-    answer:
-      "Hay sesiones de 30 minutos y de 1 hora. [COMPLETAR: duración de las demás lecturas.]",
+    answer: "Las sesiones por tiempo duran 30 minutos o 1 hora.",
     showOnHome: false,
-  },
-  {
-    id: "presencial-virtual",
-    question: "¿Las lecturas son presenciales o virtuales?",
-    answer: "[COMPLETAR: modalidad de las lecturas.]",
-    showOnHome: true,
   },
   {
     id: "como-recibo",
     question: "¿Cómo recibo mi lectura?",
-    answer: "[COMPLETAR: formato de entrega — videollamada, audio, texto, etc.]",
+    answer:
+      "Por WhatsApp: recibís un audio con lo que muestran las cartas y una foto de la tirada. Quedan guardados en el chat para que puedas volver a escucharlos cuando quieras.",
     showOnHome: false,
   },
   {

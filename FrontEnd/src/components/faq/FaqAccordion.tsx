@@ -17,7 +17,7 @@ export function FaqAccordion({ items }: Props) {
         <details key={item.id} id={item.id} className="group">
           <summary className="flex min-h-16 cursor-pointer list-none items-center gap-4 py-5 text-left transition-colors hover:text-lilac [&::-webkit-details-marker]:hidden">
             <StarSparkle className="size-3.5 shrink-0 text-violet transition-transform duration-300 group-open:rotate-45 group-open:text-lilac" />
-            <span className="flex-1 font-display text-[0.95rem] tracking-[0.04em] text-cream sm:text-base">
+            <span className="flex-1 font-display text-[1.0625rem] tracking-[0.03em] text-cream sm:text-xl">
               {item.question}
             </span>
             <span
