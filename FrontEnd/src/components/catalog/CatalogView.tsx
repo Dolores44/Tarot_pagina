@@ -55,7 +55,7 @@ export function CatalogView({ title, description, categories, activeSlug, totalC
       </PageBand>
 
       <section aria-labelledby="catalog-title" className="relative isolate overflow-clip bg-night px-4 pt-8 pb-24 sm:px-8 lg:pt-14">
-        <CelestialBackground seed={57} density="low" constellations={0} />
+        <CelestialBackground seed={57} density="low" constellations={0} spread={2400} />
         {/* minmax(0,1fr): la fila de categorías con scroll no debe ensanchar la columna en mobile */}
         <div className="relative mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14">
           <CategoryNav categories={categories} activeSlug={activeSlug} totalCount={totalCount} whatsappUrl={whatsappUrl} />

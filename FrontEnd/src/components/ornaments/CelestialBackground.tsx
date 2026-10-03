@@ -11,12 +11,19 @@ type Props = {
   constellations?: 0 | 1 | 2;
   /** Nebulosa extra muy sutil (ej. fucsia para Amor en Conexión) */
   nebula?: "fuchsia";
+  /**
+   * Alto (px) en el que se reparten los elementos animados, medido desde arriba.
+   * Las posiciones son en px y no en % del alto: si la sección crece
+   * (ej. al abrir un acordeón) el cielo no se desplaza ni se estira.
+   */
+  spread?: number;
   className?: string;
 };
 
 /**
  * Cielo nocturno vivo y liviano:
- * - Base: puntos estáticos en un solo SVG (no se repinta).
+ * - Base: puntos estáticos en un solo SVG con mosaico fijo en px (no se repinta ni se escala).
+ * - Geometría anclada arriba: el alto de la sección no afecta a las posiciones.
  * - Encima, pocos elementos animados con transform/opacity:
  *   estrellas que titilan, estrellas que derivan lento, órbitas y constelaciones que "respiran".
  * - En mobile se muestran menos elementos animados.
@@ -55,12 +62,15 @@ const CONSTELLATIONS = [
   { w: 240, h: 90, points: [[8, 60], [52, 40], [100, 52], [148, 20], [196, 34], [232, 70]], lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]] },
 ];
 
-/* Esquinas posibles: cada sección usa otras según su semilla (no se repite el mismo dibujo en el mismo lugar) */
-const CONSTELLATION_SPOTS: CSSProperties[] = [
-  { left: "4%", top: "12%" },
-  { right: "5%", bottom: "14%" },
-  { right: "6%", top: "10%" },
-  { left: "5%", bottom: "12%" },
+/*
+ * Ubicaciones posibles (cada sección usa otras según su semilla).
+ * `top` es una fracción del rango `spread`, convertida a px: siempre anclado arriba.
+ */
+const CONSTELLATION_SPOTS: { side: CSSProperties; top: number }[] = [
+  { side: { left: "4%" }, top: 0.12 },
+  { side: { right: "5%" }, top: 0.7 },
+  { side: { right: "6%" }, top: 0.1 },
+  { side: { left: "5%" }, top: 0.72 },
 ];
 
 function Constellation({ index, style, className }: { index: number; style: CSSProperties; className?: string }) {
@@ -85,13 +95,13 @@ function Constellation({ index, style, className }: { index: number; style: CSSP
   );
 }
 
-export function CelestialBackground({ seed = 1, density = "normal", constellations = 1, nebula, className }: Props) {
+export function CelestialBackground({ seed = 1, density = "normal", constellations = 1, nebula, spread = 900, className }: Props) {
   const rand = mulberry32(seed * 7919);
   const counts = COUNTS[density];
 
   const twinkles = Array.from({ length: counts.twinkles }, (_, i) => ({
     left: r1(sideX(rand)),
-    top: r1(6 + rand() * 86),
+    top: Math.round((0.06 + rand() * 0.86) * spread),
     size: r1(7 + rand() * 7),
     dur: r1(4.5 + rand() * 5),
     delay: r1(rand() * 6),
@@ -102,7 +112,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
 
   const drifters = Array.from({ length: counts.drifters }, (_, i) => ({
     left: r1(5 + rand() * 90),
-    top: r1(5 + rand() * 90),
+    top: Math.round((0.05 + rand() * 0.9) * spread),
     size: r1(2 + rand() * 2),
     dx: Math.round(-26 + rand() * 52),
     dy: Math.round(-30 + rand() * 60),
@@ -112,7 +122,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
 
   const orbits = Array.from({ length: counts.orbits }, (_, i) => ({
     left: r1(sideX(rand)),
-    top: r1(15 + rand() * 70),
+    top: Math.round((0.15 + rand() * 0.7) * spread),
     radius: Math.round(36 + rand() * 60),
     dur: Math.round(120 + rand() * 120),
     reverse: i % 2 === 1,
@@ -122,7 +132,10 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
   }));
 
   // Dos constelaciones de una misma sección van en esquinas opuestas
-  const constellationSpots = Array.from({ length: constellations }, (_, i) => CONSTELLATION_SPOTS[(seed + i * 2) % 4]);
+  const constellationSpots = Array.from({ length: constellations }, (_, i) => {
+    const spot = CONSTELLATION_SPOTS[(seed + i * 2) % 4];
+    return { ...spot.side, top: Math.round(spot.top * spread) };
+  });
 
   return (
     <div data-celestial aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className ?? ""}`}>
@@ -132,12 +145,12 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           style={{
             "--dur": "18s",
             background:
-              "radial-gradient(ellipse 38% 34% at 24% 38%, rgb(214 71 154 / 0.15), transparent 70%), radial-gradient(ellipse 30% 28% at 78% 70%, rgb(214 71 154 / 0.1), transparent 70%)",
+              "radial-gradient(ellipse 38% 320px at 24% 340px, rgb(214 71 154 / 0.15), transparent 70%), radial-gradient(ellipse 30% 260px at 78% 640px, rgb(214 71 154 / 0.1), transparent 70%)",
           } as CSSProperties}
         />
       )}
 
-      <StarField seed={seed} count={counts.dots} sparkles={0} />
+      <StarField seed={seed} count={counts.dots} />
 
       {constellationSpots.map((spot, i) => (
         <Constellation
@@ -152,7 +165,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
         <div
           key={`o${i}`}
           className={`absolute ${o.mobile ? "" : "hidden sm:block"}`}
-          style={{ left: `${o.left}%`, top: `${o.top}%`, width: 0, height: 0 }}
+          style={{ left: `${o.left}%`, top: o.top, width: 0, height: 0 }}
         >
           <div
             className="sky-anim sky-orbit"
@@ -181,7 +194,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           className={`sky-anim sky-drift absolute block rounded-full bg-cream ${d.mobile ? "" : "hidden sm:block"}`}
           style={{
             left: `${d.left}%`,
-            top: `${d.top}%`,
+            top: d.top,
             width: d.size,
             height: d.size,
             opacity: 0.7,
@@ -199,7 +212,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           width={t.size}
           height={t.size}
           className={`sky-anim sky-twinkle absolute ${t.mobile ? "" : "hidden sm:block"}`}
-          style={{ left: `${t.left}%`, top: `${t.top}%`, "--dur": `${t.dur}s`, "--delay": `${t.delay}s` } as CSSProperties}
+          style={{ left: `${t.left}%`, top: t.top, "--dur": `${t.dur}s`, "--delay": `${t.delay}s` } as CSSProperties}
         >
           <path d={SPARKLE} fill={t.warm ? "var(--color-champagne)" : "var(--color-lilac)"} />
         </svg>

@@ -5,12 +5,22 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 import { homeContent } from "@/content/home";
 import { reveal } from "@/lib/reveal";
 
-type Props = {
-  whatsappUrl: string;
+type CtaContent = {
+  eyebrow: string;
+  titleTop: string;
+  titleBottom: string;
+  text: string;
+  cta: string;
 };
 
-export function FinalCta({ whatsappUrl }: Props) {
-  const { finalCta } = homeContent;
+type Props = {
+  whatsappUrl: string;
+  /** Textos opcionales (por defecto, los de Inicio) */
+  content?: CtaContent;
+};
+
+export function FinalCta({ whatsappUrl, content }: Props) {
+  const finalCta = content ?? homeContent.finalCta;
 
   return (
     <section aria-labelledby="final-cta-title" className="hero-sky relative isolate overflow-hidden px-4 py-24 sm:px-8 lg:py-32">

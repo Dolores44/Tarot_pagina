@@ -37,7 +37,7 @@ export function Footer({ whatsappUrl }: Props) {
 
   return (
     <footer className="relative isolate overflow-clip border-t border-line/40 bg-void">
-      <CelestialBackground seed={77} density="low" constellations={1} />
+      <CelestialBackground seed={77} density="low" constellations={1} spread={650} />
 
       <div className="relative mx-auto max-w-6xl px-4 pt-20 pb-12 sm:px-8 lg:pt-24">
         <div className="grid gap-16 md:grid-cols-[1.3fr_1fr_1fr] md:gap-10 lg:gap-16">

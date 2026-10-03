@@ -90,10 +90,11 @@
     var(--color-night);
 }
 
-/* Secciones intermedias: nebulosa muy suave para alternar ritmo */
+/* Secciones intermedias: nebulosa muy suave para alternar ritmo.
+   Alto en px (no %): si la sección crece, la nebulosa no se estira. */
 @utility section-nebula {
   background:
-    radial-gradient(ellipse 60% 70% at 50% 0%, rgb(58 10 92 / 0.28), transparent 70%),
+    radial-gradient(ellipse 60% 640px at 50% 0%, rgb(58 10 92 / 0.28), transparent 70%),
     var(--color-night);
 }
 
@@ -276,4 +277,31 @@
   box-shadow:
     0 0 8px 2px rgb(217 194 154 / 0.55),
     0 0 18px 6px rgb(142 91 181 / 0.35);
+}
+
+/* Acordeón de /preguntas-frecuentes: apertura suave donde el navegador lo soporta
+   (::details-content). En el resto abre al instante, sin romper nada. */
+.faq-item {
+  interpolate-size: allow-keywords;
+}
+.faq-item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.5s var(--ease-soft),
+    content-visibility 0.5s allow-discrete;
+}
+.faq-item[open]::details-content {
+  block-size: auto;
+}
+.faq-item .faq-answer {
+  opacity: 0;
+  transform: translate3d(0, -6px, 0);
+  transition:
+    opacity 0.5s var(--ease-soft) 0.08s,
+    transform 0.5s var(--ease-soft) 0.08s;
+}
+.faq-item[open] .faq-answer {
+  opacity: 1;
+  transform: none;
 }
