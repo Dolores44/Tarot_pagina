@@ -56,7 +56,8 @@
 
   /* Animaciones (todas sutiles; se anulan con prefers-reduced-motion) */
   --animate-twinkle: twinkle 5s ease-in-out infinite;
-  --animate-blink: blink 9s ease-in-out infinite;
+  /* Parpadeo del gato: ciclo de 9.6s con intervalos de ~3s, 2.9s y 3.4s y un doble parpadeo */
+  --animate-blink: blink 9.6s ease-in-out infinite;
   --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 
   @keyframes twinkle {
@@ -64,8 +65,8 @@
     50% { opacity: 1; }
   }
   @keyframes blink {
-    0%, 94%, 100% { transform: scaleY(1); }
-    96% { transform: scaleY(0.1); }
+    0%, 29.4%, 31%, 60.4%, 62%, 64%, 65.4%, 94.4%, 96%, 100% { transform: scaleY(1); }
+    30%, 61%, 64.6%, 95% { transform: scaleY(0.08); }
   }
   @keyframes rise {
     from { opacity: 0; transform: translateY(14px); }
@@ -123,13 +124,74 @@
     inset 0 0 40px rgb(58 10 92 / 0.25);
 }
 
-/* Aparición al hacer scroll, sin JavaScript (navegadores sin soporte: visible directo) */
-@supports (animation-timeline: view()) {
-  .reveal {
-    animation: rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 40%;
-  }
+/* ---------- Revelado al hacer scroll ----------
+ * Los elementos con data-reveal arrancan ocultos SOLO si hay JavaScript
+ * (clase .js en <html>, puesta por un script inline en layout.tsx).
+ * RevealObserver les agrega data-revealed una vez, al entrar al viewport.
+ * Delay por elemento: style="--rv-delay: 120ms" (ver lib/reveal.ts).
+ */
+:root {
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.js [data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--rv-dur, 0.95s) var(--ease-soft) var(--rv-delay, 0ms),
+    transform var(--rv-dur, 0.95s) var(--ease-soft) var(--rv-delay, 0ms),
+    filter var(--rv-dur, 0.95s) var(--ease-soft) var(--rv-delay, 0ms);
+  will-change: opacity, transform;
+}
+.js [data-reveal="up"] { transform: translate3d(0, 26px, 0); }
+.js [data-reveal="scale"] { transform: translate3d(0, 18px, 0) scale(0.97); }
+.js [data-reveal="blur"] { transform: translate3d(0, 14px, 0); filter: blur(6px); }
+.js [data-reveal="left"] { transform: translate3d(-30px, 0, 0); }
+.js [data-reveal="right"] { transform: translate3d(30px, 0, 0); }
+.js [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  will-change: auto;
+}
+
+/* Mobile: recorridos más cortos y sin desplazamientos laterales */
+@media (max-width: 639px) {
+  .js [data-reveal] { --rv-dur: 0.75s; }
+  .js [data-reveal="up"],
+  .js [data-reveal="left"],
+  .js [data-reveal="right"] { transform: translate3d(0, 16px, 0); }
+  .js [data-reveal="blur"] { transform: translate3d(0, 10px, 0); filter: blur(4px); }
+}
+
+/* ---------- Cielo animado (CelestialBackground) ----------
+ * Solo transform/opacity. Fuera de pantalla se pausa (RevealObserver
+ * marca data-active en los fondos visibles).
+ */
+@keyframes sky-orbit {
+  to { transform: rotate(360deg); }
+}
+@keyframes sky-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(var(--dx, 10px), var(--dy, -14px), 0); }
+}
+@keyframes sky-twinkle {
+  0%, 100% { opacity: 0.18; transform: scale(0.75); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes sky-breathe {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.8; }
+}
+
+.sky-orbit { animation: sky-orbit var(--dur, 160s) linear infinite; }
+.sky-drift { animation: sky-drift var(--dur, 60s) ease-in-out infinite; }
+.sky-twinkle { animation: sky-twinkle var(--dur, 6s) ease-in-out var(--delay, 0s) infinite; }
+.sky-breathe { animation: sky-breathe var(--dur, 12s) ease-in-out var(--delay, 0s) infinite; }
+
+/* Pausa fuera de pantalla. Va después y con más especificidad que los
+   shorthands de arriba (el shorthand "animation" reinicia play-state). */
+[data-celestial]:not([data-active]) .sky-anim {
+  animation-play-state: paused;
 }
 
 @layer base {
@@ -182,11 +244,19 @@
 
 /* Respetar la preferencia de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
-  .reveal,
   .animate-rise,
   .animate-twinkle,
-  .animate-blink {
+  .animate-blink,
+  .sky-anim {
     animation: none !important;
+  }
+  .sky-twinkle { opacity: 0.6; }
+
+  /* Revelado: sin desplazamientos ni blur, solo un fade breve */
+  .js [data-reveal] {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.45s ease !important;
   }
 
   *,
@@ -197,4 +267,13 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Orbe del menú: núcleo champagne + halo violeta (sin animar el tamaño) */
+.nav-orb {
+  border-radius: 9999px;
+  background: radial-gradient(circle, var(--color-cream) 0%, var(--color-champagne) 45%, rgb(217 194 154 / 0) 72%);
+  box-shadow:
+    0 0 8px 2px rgb(217 194 154 / 0.55),
+    0 0 18px 6px rgb(142 91 181 / 0.35);
 }

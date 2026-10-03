@@ -2,8 +2,7 @@
  * Textos de la página de Inicio.
  *
  * Las frases provienen del material real de la marca (banners, flyers,
- * títulos de reels y respuestas de la FAQ). Lo marcado con [COMPLETAR: ...]
- * todavía no fue provisto y debe reemplazarse por texto real.
+ * títulos de reels, respuestas de la FAQ y la presentación escrita por Paola).
  */
 export const homeContent = {
   hero: {
@@ -22,11 +21,16 @@ export const homeContent = {
     // Título de reel
     titleTop: "Las cartas te cuentan",
     titleBottom: "una historia",
-    paragraphs: [
-      "[COMPLETAR: presentación personal de Paola — quién es y cómo llegó al tarot.]",
-      // FAQ "¿Cómo se realiza una lectura?"
+    /** Presentación en primera persona, resumida del texto de Paola */
+    story: [
+      "Soy Paola, creadora de Paola Tarot. Desde hace años, el Tarot forma parte de mi camino personal y espiritual: lo que comenzó como una búsqueda personal se convirtió con el tiempo en una pasión y en una forma de acompañar a otras personas.",
+      "Para mí, el Tarot es una herramienta para mirar una situación desde otra perspectiva, encontrar claridad y conectar con aquello que muchas veces sentimos pero nos cuesta expresar. Cada persona llega con su propia historia, y cada lectura es un espacio pensado para vos.",
+    ],
+    // Frase del texto de Paola
+    welcome: "Bienvenidos a Paola Tarot",
+    /** Cómo funciona (FAQ y banners de velas) */
+    practical: [
       "Las lecturas son virtuales, por WhatsApp. Hacés tus preguntas y recibís un audio con lo que muestran las cartas y una foto de la tirada, para volver a escucharlo cuando lo necesites.",
-      // Banners de velas: "Hechas con intención", "Una vela preparada para acompañar tu proceso"
       "Además de las lecturas, hay velas hechas con intención para acompañar cada proceso.",
     ],
   },

@@ -21,6 +21,10 @@ export const siteConfig = {
       handle: "tarotpaola25",
       url: "https://www.instagram.com/tarotpaola25/",
     },
+    tiktok: {
+      handle: "tarotpaola",
+      url: "https://www.tiktok.com/@tarotpaola",
+    },
   },
 
   nav: [

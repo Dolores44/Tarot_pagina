@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { StarField } from "@/components/ornaments/StarField";
-import { StarSparkle } from "@/components/ornaments/StarSparkle";
+import { NavOrb } from "@/components/layout/NavOrb";
+import { useNavOrb } from "@/components/layout/useNavOrb";
+import { CelestialBackground } from "@/components/ornaments/CelestialBackground";
 import { OrnamentDivider } from "@/components/ornaments/OrnamentDivider";
 import { BrandMark } from "@/components/ui/BrandMark";
-import { CloseIcon, InstagramIcon, WhatsAppIcon } from "@/components/ui/icons";
+import { CloseIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { siteConfig } from "@/config/site";
 import { isActivePath } from "@/lib/nav";
 
@@ -25,6 +26,9 @@ type Props = {
  */
 export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
   const panelRef = useRef<HTMLDivElement>(null);
+  const activeIndex = siteConfig.nav.findIndex((item) => isActivePath(pathname, item.href));
+  // Mismo orbe que el header, en vertical: viaja al link tocado/enfocado
+  const { pos, itemProps, containerProps } = useNavOrb(activeIndex, open);
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -72,7 +76,7 @@ export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
       className="fixed inset-0 z-50 overflow-y-auto bg-night md:hidden"
     >
       <div className="hero-sky absolute inset-0" aria-hidden="true" />
-      <StarField seed={11} count={45} sparkles={3} />
+      <CelestialBackground seed={11} density="low" constellations={0} />
 
       <div className="relative flex min-h-full flex-col px-6 pt-[env(safe-area-inset-top)] pb-10">
         <div className="flex h-16 items-center justify-between">
@@ -94,27 +98,26 @@ export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
         </div>
 
         <nav aria-label="Principal (mobile)" className="mt-14 flex-1">
-          <ul className="flex flex-col items-center gap-2">
-            {siteConfig.nav.map((item) => {
-              const active = isActivePath(pathname, item.href);
+          <ul {...containerProps} className="relative flex flex-col items-center gap-2">
+            {siteConfig.nav.map((item, index) => {
+              const active = index === activeIndex;
               return (
                 <li key={item.href}>
                   <Link
+                    {...itemProps(index)}
                     href={item.href}
                     onClick={onClose}
                     aria-current={active ? "page" : undefined}
-                    className={`relative block px-2 py-4 text-center font-display text-[1.3rem] tracking-[0.05em] uppercase min-[400px]:text-2xl ${
+                    className={`block px-2 py-4 text-center font-display text-[1.3rem] tracking-[0.05em] uppercase transition-colors min-[400px]:text-2xl ${
                       active ? "text-lilac text-glow" : "text-cream"
                     }`}
                   >
                     {item.label}
-                    {active && (
-                      <StarSparkle className="absolute bottom-1 left-1/2 size-3 -translate-x-1/2 text-lilac" />
-                    )}
                   </Link>
                 </li>
               );
             })}
+            <NavOrb {...pos} offset={-10} />
           </ul>
           <OrnamentDivider className="mx-auto mt-10 h-5 w-44 text-gold/70" />
         </nav>
@@ -129,14 +132,24 @@ export function MobileMenu({ open, onClose, pathname, whatsappUrl }: Props) {
             <WhatsAppIcon />
             Consultar por WhatsApp
           </a>
-          <a
-            href={siteConfig.social.instagram.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 py-2 text-muted"
-          >
-            <InstagramIcon className="size-5" />@{siteConfig.social.instagram.handle}
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-x-6">
+            <a
+              href={siteConfig.social.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 text-muted"
+            >
+              <InstagramIcon className="size-5" />@{siteConfig.social.instagram.handle}
+            </a>
+            <a
+              href={siteConfig.social.tiktok.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 text-muted"
+            >
+              <TikTokIcon className="size-5" />@{siteConfig.social.tiktok.handle}
+            </a>
+          </div>
         </div>
       </div>
     </div>

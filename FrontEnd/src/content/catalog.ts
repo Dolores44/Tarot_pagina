@@ -66,6 +66,7 @@ export const products: Product[] = [
       height: 1536,
     },
     featured: true,
+    nebula: "fuchsia",
     whatsappSubject: "Amor en Conexión",
   },
   {

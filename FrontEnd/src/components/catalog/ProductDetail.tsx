@@ -3,11 +3,13 @@ import { PageBand } from "@/components/catalog/PageBand";
 import { ProductBadges } from "@/components/catalog/ProductBadges";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { ProductVisual } from "@/components/catalog/ProductVisual";
+import { CelestialBackground } from "@/components/ornaments/CelestialBackground";
 import { OrnamentDivider } from "@/components/ornaments/OrnamentDivider";
 import { StarSparkle } from "@/components/ornaments/StarSparkle";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { HourglassIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { catalogTexts } from "@/content/catalog-texts";
+import { reveal, stagger } from "@/lib/reveal";
 import { getCardNumber, getCategoryName, getProductBySlug, productPath } from "@/services/catalog.service";
 import type { ComboPart, Product, ProductSection } from "@/types/catalog";
 
@@ -41,7 +43,11 @@ function SpreadSection({ section }: { section: ProductSection }) {
       </h2>
       <ol className="mt-5 grid gap-3 sm:grid-cols-2">
         {section.items.map((item, index) => (
-          <li key={item} className="flex items-center gap-4 rounded-md border border-line/60 bg-surface/70 px-3 py-2.5">
+          <li
+            key={item}
+            {...reveal("up", stagger(index, 80))}
+            className="flex items-center gap-4 rounded-md border border-line/60 bg-surface/70 px-3 py-2.5"
+          >
             <span className="flex h-14 w-10 shrink-0 items-center justify-center rounded-sm border border-gold/60 bg-night font-display text-xl text-champagne shadow-glow-sm">
               {index + 1}
             </span>
@@ -102,7 +108,7 @@ function ComboPartBlock({ part }: { part: ComboPart }) {
 /** Frase destacada: tratamiento de "cita" con ornamentos, como en los banners. */
 function Quote({ text }: { text: string }) {
   return (
-    <figure className="mt-12 flex flex-col items-center text-center">
+    <figure {...reveal("blur", 120)} className="mt-12 flex flex-col items-center text-center">
       <OrnamentDivider className="h-5 w-40 text-gold/70" />
       <blockquote className="mt-5 max-w-lg font-display text-[1.45rem] leading-snug tracking-[0.04em] text-champagne uppercase sm:text-[1.7rem]">
         {text}
@@ -120,8 +126,8 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
 
   return (
     <>
-      <PageBand seed={cardNumber * 13} className="pt-8 pb-16 lg:pt-10 lg:pb-24">
-        <nav aria-label="Ruta de navegación">
+      <PageBand seed={cardNumber * 13} nebula={product.nebula} className="pt-8 pb-16 lg:pt-10 lg:pb-24">
+        <nav {...reveal("up")} aria-label="Ruta de navegación">
           <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-display text-label tracking-[0.12em] uppercase">
             <li>
               <Link href="/catalogo" className="inline-block py-2 text-muted transition-colors hover:text-cream">
@@ -141,33 +147,39 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
           </ol>
         </nav>
 
-        <div className="mt-10 grid items-start gap-12 md:grid-cols-[minmax(0,22rem)_1fr] lg:mt-14 lg:grid-cols-[minmax(0,27rem)_1fr] lg:gap-16">
-          <div className="animate-rise relative mx-auto w-full max-w-md md:sticky md:top-28">
+        <div className="mt-10 grid items-start gap-12 lg:mt-14 lg:grid-cols-[minmax(0,27rem)_1fr] lg:gap-16">
+          <div {...reveal("scale", 80)} className="relative mx-auto w-full max-w-md">
             <ProductVisual
               product={product}
               cardNumber={cardNumber}
               variant="full"
-              sizes="(min-width: 1024px) 27rem, (min-width: 768px) 22rem, 90vw"
+              sizes="(min-width: 1024px) 27rem, (min-width: 640px) 28rem, 90vw"
               priority
             />
             <ProductBadges product={product} className="absolute -top-3.5 left-1/2 -translate-x-1/2" />
           </div>
 
-          <div className="animate-rise [animation-delay:120ms]">
-            <p className={`flex items-center gap-3 ${labelClass}`}>
+          <div>
+            <p {...reveal("up", 160)} className={`flex items-center gap-3 ${labelClass}`}>
               <StarSparkle className="size-3.5 text-violet" />
               {categoryName}
             </p>
-            <h1 className="mt-4 text-[2.1rem] leading-tight uppercase sm:text-5xl">{product.name}</h1>
-            {product.subtitle && <p className="mt-3 text-xl text-lilac italic sm:text-2xl">{product.subtitle}</p>}
-            <OrnamentDivider className="mt-6 h-5 w-44 text-gold/70" />
+            <h1 {...reveal("blur", 240)} className="mt-4 text-[2.1rem] leading-tight uppercase sm:text-5xl">
+              {product.name}
+            </h1>
+            {product.subtitle && (
+              <p {...reveal("up", 320)} className="mt-3 text-xl text-lilac italic sm:text-2xl">
+                {product.subtitle}
+              </p>
+            )}
+            <OrnamentDivider {...reveal("scale", 380)} className="mt-6 h-5 w-44 text-gold/70" />
 
-            <p className="mt-7 max-w-prose text-[1.2rem] leading-relaxed text-cream/90 sm:text-[1.3rem]">
+            <p {...reveal("up", 440)} className="mt-7 max-w-prose text-[1.2rem] leading-relaxed text-cream/90 sm:text-[1.3rem]">
               {product.description ?? product.shortDescription}
             </p>
 
             {product.highlights.length > 0 && (
-              <div className="mt-8 max-w-prose text-[1.15rem] sm:text-[1.2rem]">
+              <div {...reveal("up", 120)} className="mt-8 max-w-prose text-[1.15rem] sm:text-[1.2rem]">
                 <HighlightList items={product.highlights} />
               </div>
             )}
@@ -181,7 +193,7 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
             )}
 
             {product.includes && product.includes.length > 0 && (
-              <section aria-labelledby="includes-title" className="mt-10">
+              <section {...reveal("up", 120)} aria-labelledby="includes-title" className="mt-10">
                 <h2 id="includes-title" className={labelClass}>
                   {detail.includesTitle}
                 </h2>
@@ -194,7 +206,7 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
             )}
 
             {product.details && product.details.length > 0 && (
-              <section aria-labelledby="info-title" className="flyer-box mt-10 max-w-lg px-5 py-5 sm:px-7">
+              <section {...reveal("up", 120)} aria-labelledby="info-title" className="flyer-box mt-10 max-w-lg px-5 py-5 sm:px-7">
                 <h2 id="info-title" className={labelClass}>
                   {detail.infoTitle}
                 </h2>
@@ -237,7 +249,7 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
 
             {product.quote && <Quote text={product.quote} />}
 
-            <div className="mt-12 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-8">
+            <div {...reveal("up", 120)} className="mt-12 flex flex-col items-stretch gap-4 sm:flex-row sm:items-center sm:gap-8">
               <ButtonLink
                 href={whatsappUrl}
                 variant="whatsapp"
@@ -255,17 +267,18 @@ export function ProductDetail({ product, related, whatsappUrl }: Props) {
       </PageBand>
 
       {related.length > 0 && (
-        <section aria-labelledby="related-title" className="section-nebula px-4 py-20 sm:px-8 lg:py-24">
-          <div className="mx-auto max-w-6xl">
-            <div className="flex flex-col items-center text-center">
+        <section aria-labelledby="related-title" className="section-nebula relative isolate overflow-clip px-4 py-20 sm:px-8 lg:py-24">
+          <CelestialBackground seed={cardNumber * 7} density="low" constellations={0} />
+          <div className="relative mx-auto max-w-6xl">
+            <div {...reveal("blur")} className="flex flex-col items-center text-center">
               <h2 id="related-title" className="text-[1.9rem] uppercase sm:text-[2.4rem]">
                 {detail.related}
               </h2>
               <OrnamentDivider className="mt-5 h-5 w-44 text-gold/70" />
             </div>
             <ul className="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-20">
-              {related.map((item) => (
-                <li key={item.slug} className="reveal w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)]">
+              {related.map((item, index) => (
+                <li key={item.slug} {...reveal("scale", stagger(index, 120))} className="w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.7rem)]">
                   <ProductCard product={item} />
                 </li>
               ))}

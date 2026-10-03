@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cinzel, Cinzel_Decorative, Crimson_Pro } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { RevealObserver } from "@/components/motion/RevealObserver";
 import { siteConfig } from "@/config/site";
 import { publicEnv } from "@/lib/env";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -55,7 +56,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es-AR"
       className={`${cinzel.variable} ${cinzelDecorative.variable} ${crimsonPro.variable}`}
+      // El script de abajo agrega la clase "js" antes de hidratar
+      suppressHydrationWarning
     >
+      <head>
+        {/* Activa el revelado al hacer scroll solo si hay JavaScript (sin parpadeo inicial) */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <noscript>
+          <style>{"[data-reveal]{opacity:1!important;transform:none!important;filter:none!important}"}</style>
+        </noscript>
+      </head>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#contenido"
@@ -68,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer whatsappUrl={whatsappUrl} />
+        <RevealObserver />
       </body>
     </html>
   );

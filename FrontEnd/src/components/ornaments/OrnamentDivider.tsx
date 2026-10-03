@@ -1,11 +1,12 @@
-type Props = {
-  className?: string;
-};
+import type { SVGProps } from "react";
+
+type Props = SVGProps<SVGSVGElement>;
 
 /** Filigrana con luna creciente: cierre de títulos y separador de secciones. */
-export function OrnamentDivider({ className }: Props) {
+export function OrnamentDivider({ className, ...rest }: Props) {
   return (
     <svg
+      {...rest}
       viewBox="0 0 240 24"
       aria-hidden="true"
       focusable="false"

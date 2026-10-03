@@ -32,6 +32,21 @@ export function InstagramIcon({ className }: Props) {
   );
 }
 
+export function TikTokIcon({ className }: Props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className={className ?? "size-5"}>
+      <path
+        d="M14.2 3v11.4a3.7 3.7 0 1 1-3.7-3.7M14.2 3c.3 2.6 2.1 4.5 4.8 4.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function MenuIcon({ className }: Props) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" className={className ?? "size-6"}>

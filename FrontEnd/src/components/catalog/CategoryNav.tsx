@@ -3,6 +3,7 @@ import { OrnamentDivider } from "@/components/ornaments/OrnamentDivider";
 import { StarSparkle } from "@/components/ornaments/StarSparkle";
 import { WhatsAppIcon } from "@/components/ui/icons";
 import { catalogTexts } from "@/content/catalog-texts";
+import { reveal } from "@/lib/reveal";
 import type { CategoryWithCount } from "@/types/catalog";
 
 type Props = {
@@ -65,7 +66,7 @@ export function CategoryNav(props: Props) {
 
       {/* Desktop */}
       <aside className="hidden lg:block">
-        <nav aria-label={catalogTexts.nav.title} className="flyer-box sticky top-28 px-6 py-8">
+        <nav {...reveal("left")} aria-label={catalogTexts.nav.title} className="flyer-box sticky top-28 px-6 py-8">
           <p className="flex items-center justify-center gap-3 font-display text-label tracking-label text-champagne uppercase">
             <StarSparkle className="size-3 text-violet" />
             {catalogTexts.nav.title}

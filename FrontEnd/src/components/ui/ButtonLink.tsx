@@ -14,13 +14,13 @@ type Props = {
 };
 
 const base =
-  "inline-flex min-h-13 items-center justify-center gap-2.5 text-center font-display text-button tracking-[0.12em] uppercase transition duration-300";
+  "inline-flex min-h-13 items-center justify-center gap-2.5 text-center font-display text-button tracking-[0.08em] uppercase transition duration-300 sm:tracking-[0.12em]";
 
 const variants: Record<Variant, string> = {
   primary:
-    "rounded-sm border border-lilac/70 bg-violet-deep px-8 py-3 text-cream hover:border-lilac hover:shadow-glow",
+    "rounded-sm border border-lilac/70 bg-violet-deep px-5 py-3 text-cream hover:border-lilac hover:shadow-glow sm:px-8",
   whatsapp:
-    "rounded-sm border border-champagne/80 px-8 py-3 text-champagne hover:border-champagne hover:bg-champagne hover:text-night",
+    "rounded-sm border border-champagne/80 px-5 py-3 text-champagne hover:border-champagne hover:bg-champagne hover:text-night sm:px-8",
   text: "group min-h-0 px-1 py-1 text-lilac hover:text-cream",
 };
 

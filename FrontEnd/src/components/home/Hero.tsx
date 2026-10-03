@@ -1,7 +1,7 @@
 import { CrescentMoon, SunLine } from "@/components/ornaments/CelestialLines";
 import { PeekingCat } from "@/components/ornaments/PeekingCat";
 import { SideRails } from "@/components/ornaments/SideRails";
-import { StarField } from "@/components/ornaments/StarField";
+import { CelestialBackground } from "@/components/ornaments/CelestialBackground";
 import { StarSparkle } from "@/components/ornaments/StarSparkle";
 import { BrandMark } from "@/components/ui/BrandMark";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -23,7 +23,7 @@ export function Hero({ whatsappUrl }: Props) {
       aria-labelledby="hero-title"
       className="hero-sky relative isolate overflow-hidden"
     >
-      <StarField seed={7} count={90} sparkles={7} />
+      <CelestialBackground seed={7} density="high" constellations={1} />
       <SideRails />
       <SunLine className="absolute top-8 left-6 hidden size-24 text-violet/45 sm:block lg:left-20 lg:size-32" />
       <CrescentMoon className="absolute top-10 right-8 size-16 text-lilac/40 sm:size-20 lg:right-24 lg:size-24" />

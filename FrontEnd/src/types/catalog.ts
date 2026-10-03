@@ -72,6 +72,8 @@ export type Product = {
   /** Enlace a un video explicativo (se muestra solo si está cargado) */
   videoUrl?: string;
   featured?: boolean;
+  /** Nebulosa de fondo en el detalle (solo visual; ej. el fucsia del banner de Amor en Conexión) */
+  nebula?: "fuchsia";
   /**
    * Cómo se nombra el producto en el mensaje de WhatsApp:
    * "Hola! Quisiera consultar por {whatsappSubject}."
