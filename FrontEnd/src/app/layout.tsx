@@ -35,12 +35,21 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  // Valores por defecto al compartir cualquier página (las de producto definen los suyos).
+  // Las URLs relativas se resuelven con metadataBase (NEXT_PUBLIC_SITE_URL).
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — Lecturas de tarot y velas`,
-    description: siteConfig.description,
+    title: siteConfig.share.title,
+    description: siteConfig.share.description,
+    images: [siteConfig.share.image],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.share.title,
+    description: siteConfig.share.description,
+    images: [siteConfig.share.image],
   },
 };
 

@@ -33,6 +33,22 @@ export const siteConfig = {
     { label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
   ],
 
+  /**
+   * Vista previa al compartir (WhatsApp, Facebook, Telegram, Discord, X…).
+   * Imagen PROVISORIA: el emblema cuadrado de 768 px. Lo ideal es una imagen
+   * de 1200×630 px (JPG/PNG): cuando exista, reemplazar url/width/height acá.
+   */
+  share: {
+    title: "Paola Tarot",
+    description: "Abrí las puertas a las respuestas",
+    image: {
+      url: "/brand/logo-circular-768.webp",
+      width: 768,
+      height: 768,
+      alt: "Paola Tarot — emblema con las cartas El Sol, La Luna y La Estrella",
+    },
+  },
+
   logo: {
     alt: "Paola Tarot — emblema con las cartas El Sol, La Luna y La Estrella",
     src: {

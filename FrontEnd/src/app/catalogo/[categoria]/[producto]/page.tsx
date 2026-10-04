@@ -26,6 +26,13 @@ export async function generateMetadata(props: PageProps<"/catalogo/[categoria]/[
       url: productPath(product),
       images: product.image ? [{ url: product.image.src, alt: product.image.alt }] : undefined,
     },
+    // Sin esto heredaría la tarjeta de marca del layout en vez de la del producto
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | ${siteConfig.name}`,
+      description,
+      images: product.image ? [{ url: product.image.src, alt: product.image.alt }] : undefined,
+    },
   };
 }
 
