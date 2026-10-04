@@ -154,6 +154,12 @@
   filter: none;
   will-change: auto;
 }
+/* Red de seguridad (ver layout.tsx): la app no inició, mostrar todo */
+.reveal-fallback [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
 
 /* Mobile: recorridos más cortos y sin desplazamientos laterales */
 @media (max-width: 639px) {

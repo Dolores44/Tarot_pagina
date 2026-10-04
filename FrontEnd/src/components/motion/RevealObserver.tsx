@@ -15,6 +15,9 @@ export function RevealObserver() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Avisa al script de layout.tsx que el revelado está activo (cancela la red de seguridad)
+    (window as Window & { __revealReady?: boolean }).__revealReady = true;
+
     const revealObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

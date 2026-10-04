@@ -60,8 +60,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        {/* Activa el revelado al hacer scroll solo si hay JavaScript (sin parpadeo inicial) */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/*
+          Activa el revelado al hacer scroll solo si hay JavaScript (sin parpadeo inicial).
+          Red de seguridad: si la app no llega a iniciar en 3 s (JS bloqueado, conexión que
+          corta el bundle, navegador viejo), se muestra todo el contenido sin animación.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "document.documentElement.classList.add('js');setTimeout(function(){if(!window.__revealReady)document.documentElement.classList.add('reveal-fallback')},3000)",
+          }}
+        />
         <noscript>
           <style>{"[data-reveal]{opacity:1!important;transform:none!important;filter:none!important}"}</style>
         </noscript>

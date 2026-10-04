@@ -14,6 +14,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  /*
+   * Solo desarrollo: permite abrir `npm run dev` desde el celular por la IP de la red local
+   * (ej. http://192.168.1.12:3000). Sin esto Next bloquea sus recursos de desarrollo
+   * para otros orígenes y la página no se hidrata. No afecta a producción.
+   */
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*"],
   images: {
     formats: ["image/avif", "image/webp"],
   },
