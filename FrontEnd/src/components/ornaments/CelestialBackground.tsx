@@ -50,6 +50,20 @@ function mulberry32(seed: number) {
 
 const r1 = (v: number) => Math.round(v * 10) / 10;
 
+/*
+ * Reloj común de las animaciones del cielo (ver globals.css): los valores cambian
+ * 30 veces por segundo, todos en los mismos instantes, en vez de en cada refresco
+ * del monitor. Para que caigan en múltiplos de 1/30 s:
+ * - las duraciones se redondean a múltiplos de 0,4 s (cambio ≤ 0,2 s sobre valores
+ *   que ya son aleatorios), y los delays ya son múltiplos de 0,1 s;
+ * - las animaciones con ease-in-out tienen 12 tramos por ciclo (6 por mitad).
+ */
+const STEP_HZ = 30;
+const EASED_SEGMENTS = 12;
+const snapDur = (s: number) => r1(Math.max(0.4, Math.round(s / 0.4) * 0.4));
+const easedSteps = (dur: number) => Math.round((dur * STEP_HZ) / EASED_SEGMENTS);
+const linearSteps = (dur: number) => Math.round(dur * STEP_HZ);
+
 /** x en los laterales (3–30% o 70–97%) para no competir con el texto centrado */
 const sideX = (rand: () => number) => (rand() < 0.5 ? 3 + rand() * 27 : 70 + rand() * 27);
 
@@ -103,7 +117,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
     left: r1(sideX(rand)),
     top: Math.round((0.06 + rand() * 0.86) * spread),
     size: r1(7 + rand() * 7),
-    dur: r1(4.5 + rand() * 5),
+    dur: snapDur(4.5 + rand() * 5),
     delay: r1(rand() * 6),
     warm: rand() > 0.55,
     // la mitad no se muestra en mobile
@@ -116,7 +130,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
     size: r1(2 + rand() * 2),
     dx: Math.round(-26 + rand() * 52),
     dy: Math.round(-30 + rand() * 60),
-    dur: Math.round(45 + rand() * 50),
+    dur: snapDur(45 + rand() * 50),
     mobile: i === 0,
   }));
 
@@ -144,6 +158,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           className="sky-anim sky-breathe absolute inset-0"
           style={{
             "--dur": "18s",
+            "--steps": easedSteps(18),
             background:
               "radial-gradient(ellipse 38% 320px at 24% 340px, rgb(214 71 154 / 0.15), transparent 70%), radial-gradient(ellipse 30% 260px at 78% 640px, rgb(214 71 154 / 0.1), transparent 70%)",
           } as CSSProperties}
@@ -157,7 +172,14 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           key={i}
           index={(seed + i) % CONSTELLATIONS.length}
           className={i === 1 ? "hidden md:block" : "hidden sm:block"}
-          style={{ ...spot, "--dur": `${14 + i * 5}s`, "--delay": `${i * 3}s` } as CSSProperties}
+          style={
+            {
+              ...spot,
+              "--dur": `${snapDur(14 + i * 5)}s`,
+              "--steps": easedSteps(snapDur(14 + i * 5)),
+              "--delay": `${i * 3}s`,
+            } as CSSProperties
+          }
         />
       ))}
 
@@ -169,7 +191,14 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
         >
           <div
             className="sky-anim sky-orbit"
-            style={{ "--dur": `${o.dur}s`, animationDirection: o.reverse ? "reverse" : "normal", rotate: `${o.phase}deg` } as CSSProperties}
+            style={
+              {
+                "--dur": `${o.dur}s`,
+                "--steps": linearSteps(o.dur),
+                animationDirection: o.reverse ? "reverse" : "normal",
+                rotate: `${o.phase}deg`,
+              } as CSSProperties
+            }
           >
             {Array.from({ length: o.stars }, (_, s) => (
               <span
@@ -201,6 +230,7 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
             "--dx": `${d.dx}px`,
             "--dy": `${d.dy}px`,
             "--dur": `${d.dur}s`,
+            "--steps": easedSteps(d.dur),
           } as CSSProperties}
         />
       ))}
@@ -212,7 +242,15 @@ export function CelestialBackground({ seed = 1, density = "normal", constellatio
           width={t.size}
           height={t.size}
           className={`sky-anim sky-twinkle absolute ${t.mobile ? "" : "hidden sm:block"}`}
-          style={{ left: `${t.left}%`, top: t.top, "--dur": `${t.dur}s`, "--delay": `${t.delay}s` } as CSSProperties}
+          style={
+            {
+              left: `${t.left}%`,
+              top: t.top,
+              "--dur": `${t.dur}s`,
+              "--steps": easedSteps(t.dur),
+              "--delay": `${t.delay}s`,
+            } as CSSProperties
+          }
         >
           <path d={SPARKLE} fill={t.warm ? "var(--color-champagne)" : "var(--color-lilac)"} />
         </svg>

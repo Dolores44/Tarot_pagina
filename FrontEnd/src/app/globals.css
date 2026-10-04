@@ -177,23 +177,65 @@
 @keyframes sky-orbit {
   to { transform: rotate(360deg); }
 }
-@keyframes sky-drift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(var(--dx, 10px), var(--dy, -14px), 0); }
-}
+/*
+ * Optimización de GPU: los valores cambian en un reloj común de 30 Hz (steps)
+ * en lugar de en cada refresco del monitor (hasta 210 Hz). Así Chrome solo
+ * presenta frames cuando algo cambia y DWM compone muchos menos frames.
+ * - El ease-in-out original está muestreado en los keyframes (6 puntos por
+ *   medio ciclo; desvío máx. 1,5% de la amplitud): la curva se ve igual.
+ * - --steps = pasos por tramo, calculado en CelestialBackground para que todos
+ *   los cambios caigan en múltiplos de 1/30 s (duraciones múltiplo de 0,4 s).
+ */
 @keyframes sky-twinkle {
-  0%, 100% { opacity: 0.18; transform: scale(0.75); }
+  0% { opacity: 0.18; transform: scale(0.75); }
+  8.3333% { opacity: 0.226; transform: scale(0.764); }
+  16.6667% { opacity: 0.3701; transform: scale(0.8079); }
+  25% { opacity: 0.59; transform: scale(0.875); }
+  33.3333% { opacity: 0.8099; transform: scale(0.9421); }
+  41.6667% { opacity: 0.954; transform: scale(0.986); }
   50% { opacity: 1; transform: scale(1); }
+  58.3333% { opacity: 0.954; transform: scale(0.986); }
+  66.6667% { opacity: 0.8099; transform: scale(0.9421); }
+  75% { opacity: 0.59; transform: scale(0.875); }
+  83.3333% { opacity: 0.3701; transform: scale(0.8079); }
+  91.6667% { opacity: 0.226; transform: scale(0.764); }
+  100% { opacity: 0.18; transform: scale(0.75); }
+}
+@keyframes sky-drift {
+  0% { transform: translate3d(calc(var(--dx, 10px) * 0), calc(var(--dy, -14px) * 0), 0); }
+  8.3333% { transform: translate3d(calc(var(--dx, 10px) * 0.0561), calc(var(--dy, -14px) * 0.0561), 0); }
+  16.6667% { transform: translate3d(calc(var(--dx, 10px) * 0.2318), calc(var(--dy, -14px) * 0.2318), 0); }
+  25% { transform: translate3d(calc(var(--dx, 10px) * 0.5), calc(var(--dy, -14px) * 0.5), 0); }
+  33.3333% { transform: translate3d(calc(var(--dx, 10px) * 0.7682), calc(var(--dy, -14px) * 0.7682), 0); }
+  41.6667% { transform: translate3d(calc(var(--dx, 10px) * 0.9439), calc(var(--dy, -14px) * 0.9439), 0); }
+  50% { transform: translate3d(calc(var(--dx, 10px) * 1), calc(var(--dy, -14px) * 1), 0); }
+  58.3333% { transform: translate3d(calc(var(--dx, 10px) * 0.9439), calc(var(--dy, -14px) * 0.9439), 0); }
+  66.6667% { transform: translate3d(calc(var(--dx, 10px) * 0.7682), calc(var(--dy, -14px) * 0.7682), 0); }
+  75% { transform: translate3d(calc(var(--dx, 10px) * 0.5), calc(var(--dy, -14px) * 0.5), 0); }
+  83.3333% { transform: translate3d(calc(var(--dx, 10px) * 0.2318), calc(var(--dy, -14px) * 0.2318), 0); }
+  91.6667% { transform: translate3d(calc(var(--dx, 10px) * 0.0561), calc(var(--dy, -14px) * 0.0561), 0); }
+  100% { transform: translate3d(calc(var(--dx, 10px) * 0), calc(var(--dy, -14px) * 0), 0); }
 }
 @keyframes sky-breathe {
-  0%, 100% { opacity: 0.35; }
+  0% { opacity: 0.35; }
+  8.3333% { opacity: 0.3753; }
+  16.6667% { opacity: 0.4543; }
+  25% { opacity: 0.575; }
+  33.3333% { opacity: 0.6957; }
+  41.6667% { opacity: 0.7747; }
   50% { opacity: 0.8; }
+  58.3333% { opacity: 0.7747; }
+  66.6667% { opacity: 0.6957; }
+  75% { opacity: 0.575; }
+  83.3333% { opacity: 0.4543; }
+  91.6667% { opacity: 0.3753; }
+  100% { opacity: 0.35; }
 }
 
-.sky-orbit { animation: sky-orbit var(--dur, 160s) linear infinite; }
-.sky-drift { animation: sky-drift var(--dur, 60s) ease-in-out infinite; }
-.sky-twinkle { animation: sky-twinkle var(--dur, 6s) ease-in-out var(--delay, 0s) infinite; }
-.sky-breathe { animation: sky-breathe var(--dur, 12s) ease-in-out var(--delay, 0s) infinite; }
+.sky-orbit { animation: sky-orbit var(--dur, 160s) steps(var(--steps, 4800)) infinite; }
+.sky-drift { animation: sky-drift var(--dur, 60s) steps(var(--steps, 150)) infinite; }
+.sky-twinkle { animation: sky-twinkle var(--dur, 6s) steps(var(--steps, 15)) var(--delay, 0s) infinite; }
+.sky-breathe { animation: sky-breathe var(--dur, 12s) steps(var(--steps, 30)) var(--delay, 0s) infinite; }
 
 /* Pausa fuera de pantalla. Va después y con más especificidad que los
    shorthands de arriba (el shorthand "animation" reinicia play-state). */
